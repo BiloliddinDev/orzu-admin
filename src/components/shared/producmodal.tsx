@@ -15,11 +15,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from "react";
 
-export function DialogCloseButton({ children }: { children: React.ReactNode }) {
+export function DialogCloseButton({
+  children,
+  title,
+}: {
+  children: React.ReactNode;
+  title: string;
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
+<<<<<<< HEAD
         <Button className="block rounded-2xl">Add Tours</Button>
+=======
+        <Button className="block">{title}</Button>
+>>>>>>> 95e93b3e07aef95dfbd13fcc75108221bdecf14f
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
