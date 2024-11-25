@@ -9,3 +9,8 @@ export interface tourtype {
   season: "Summer" | "Winter" | "Spring" | "Autumn";
   title: string;
 }
+export interface categorytype {
+  id: any;
+  description: string;
+  title: string;
+}

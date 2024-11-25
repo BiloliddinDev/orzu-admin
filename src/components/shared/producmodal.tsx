@@ -19,7 +19,7 @@ export function DialogCloseButton({ children }: { children: React.ReactNode }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="block">Add Tours</Button>
+        <Button className="block rounded-2xl">Add Tours</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
