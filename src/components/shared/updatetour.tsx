@@ -18,14 +18,14 @@ interface EditTourFormProps {
 }
 
 const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
-  const [updatedTour, setUpdatedTour] = useState<tourtype>(tour);
+  const [updatedTour, setUpdatedTour]: any = useState(tour);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUpdatedTour((prevTour) => ({
+    setUpdatedTour((prevTour: any) => ({
       ...prevTour,
       [name]: value,
     }));

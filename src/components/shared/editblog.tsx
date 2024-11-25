@@ -14,7 +14,6 @@ const Editblog: React.FC<EditBlogProps> = ({ updateBlog }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Blogstype>(updateBlog);
 
-  // Form ma'lumotlarini yangilash funksiyasi
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -32,7 +31,8 @@ const Editblog: React.FC<EditBlogProps> = ({ updateBlog }) => {
 
     try {
       const blogDocRef = doc(DB, "blog", formData.id);
-      await updateDoc(blogDocRef, formData);
+      await updateDoc(blogDocRef, { formData });
+
       alert("Blog successfully updated!");
     } catch (error) {
       console.error("Error updating blog: ", error);

@@ -27,7 +27,9 @@ const Blogcreate = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSeasonChange = (value: tourtype) => {
+  const handleSeasonChange = (
+    value: "Summer" | "Winter" | "Spring" | "Autumn"
+  ) => {
     setFormData({ ...formData, season: value });
   };
 

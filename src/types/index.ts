@@ -5,7 +5,7 @@ export interface tourtype {
   duration: string;
   image: string;
   location: string;
-  price: number;
+  price: string;
   season: "Summer" | "Winter" | "Spring" | "Autumn";
   title: string;
 }

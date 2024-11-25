@@ -18,10 +18,10 @@ const CreateTourForm = () => {
     title: "",
     price: "",
     location: "",
-    season: "",
+    season: "Autumn",
     description: "",
     duration: "",
-    imageUrl: "",
+    image: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +30,9 @@ const CreateTourForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSeasonChange = (value: tourtype) => {
+  const handleSeasonChange = (
+    value: "Summer" | "Winter" | "Spring" | "Autumn"
+  ) => {
     setFormData({ ...formData, season: value });
   };
 
@@ -46,7 +48,7 @@ const CreateTourForm = () => {
         season: formData.season,
         description: formData.description,
         duration: formData.duration,
-        image: formData.imageUrl,
+        image: formData.image,
         createdAt: new Date(),
       };
 
@@ -58,10 +60,10 @@ const CreateTourForm = () => {
         title: "",
         price: "",
         location: "",
-        season: "",
+        season: "Summer",
         description: "",
         duration: "",
-        imageUrl: "",
+        image: "",
       });
     } catch (error) {
       console.error("Error creating tour:", error);
@@ -151,8 +153,8 @@ const CreateTourForm = () => {
           <label className="block mb-1 text-sm font-medium">Image URL</label>
           <Input
             type="text"
-            name="imageUrl"
-            value={formData.imageUrl}
+            name="image"
+            value={formData.image}
             onChange={handleChange}
             placeholder="Enter image URL"
             required
