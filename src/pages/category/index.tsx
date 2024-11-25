@@ -38,7 +38,7 @@ const Category = () => {
 
   return (
     <div>
-      <DialogCloseButton>
+      <DialogCloseButton title="Add Category">
         <CreateCategoryForm />
       </DialogCloseButton>
       <div className="p-4">
@@ -55,7 +55,7 @@ const Category = () => {
                 >
                   <MdDelete />
                 </Button>
-                <DialogCloseButton>
+                <DialogCloseButton title="edit">
                   <UpdateCategoryForm category={category} />
                 </DialogCloseButton>
               </div>
