@@ -7,6 +7,7 @@ import { tourtype } from "@/types";
 import { Button } from "@/components/ui/button";
 import { MdDelete } from "react-icons/md";
 import { Pen } from "lucide-react";
+import EditTourForm from "@/components/shared/updatetour";
 
 const Tours = () => {
   const [tours, setTours] = useState<tourtype[]>([]);
@@ -36,7 +37,7 @@ const Tours = () => {
 
   return (
     <div>
-      <DialogCloseButton>
+      <DialogCloseButton title="Add Tour">
         <CreateTourForm />
       </DialogCloseButton>
       <div className="p-4">
@@ -62,8 +63,8 @@ const Tours = () => {
                 >
                   <MdDelete />
                 </Button>
-                <DialogCloseButton>
-                  <Pen />
+                <DialogCloseButton title="Edit">
+                  <EditTourForm tour={tour} />
                 </DialogCloseButton>
               </div>
             </div>
