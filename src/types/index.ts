@@ -9,12 +9,17 @@ export interface tourtype {
   season: "Summer" | "Winter" | "Spring" | "Autumn";
   title: string;
 }
+export interface categorytype {
+  id: any;
+  title: string;
+  description: string;
+}
 
 export interface Blogstype {
   id?: any;
   createdAt: Date | string;
   description: string;
   image: string;
-  season: string;
   title: string;
+  season: string;
 }
