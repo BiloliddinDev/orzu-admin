@@ -1,11 +1,8 @@
-import { Copy } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -23,11 +20,7 @@ export function DialogCloseButton({
   return (
     <Dialog>
       <DialogTrigger asChild>
-<<<<<<< HEAD
-        <Button className="block rounded-2xl">Add Tours</Button>
-=======
         <Button className="block">{title}</Button>
->>>>>>> 95e93b3e07aef95dfbd13fcc75108221bdecf14f
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
