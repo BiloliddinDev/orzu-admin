@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { tourtype } from "@/types";
+import { useEffect, useState } from "react";
+import { categorytype, tourtype } from "@/types";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -10,8 +10,9 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { doc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { DB } from "@/api/firebase";
+import TagSelect from "./multiselect";
 
 interface EditTourFormProps {
   tour: tourtype;
@@ -20,7 +21,20 @@ interface EditTourFormProps {
 const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
   const [updatedTour, setUpdatedTour]: any = useState(tour);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<categorytype[]>([]);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const querySnapshot = await getDocs(collection(DB, "categories"));
+      const categoriesData: any = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCategories(categoriesData);
+    };
+
+    fetchCategories();
+  }, []);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -35,6 +49,18 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
     setUpdatedTour((prevTour: any) => ({
       ...prevTour,
       season: value,
+    }));
+  };
+  const handleCategoryChange = (value: string) => {
+    setUpdatedTour((prevTour: any) => ({
+      ...prevTour,
+      category: value,
+    }));
+  };
+  const handleAboutChange = (value: string[]) => {
+    setUpdatedTour((prevTour: any) => ({
+      ...prevTour,
+      about: value,
     }));
   };
 
@@ -108,6 +134,42 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
               <SelectItem value="Autumn">Autumn</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+        <div>
+          <label className="block mb-1 text-sm font-medium">Category</label>
+          <Select
+            value={updatedTour.category}
+            onValueChange={handleCategoryChange}
+            required
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.title}>
+                  {category.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <label className="block mb-1 text-sm font-medium">About tour</label>
+
+          <TagSelect
+            onChange={handleAboutChange}
+            initialOptions={[
+              "лето",
+              "россия",
+              "алтай",
+              "зима",
+              "осень",
+              "весна",
+              "новый год",
+            ]}
+            initialTags={updatedTour.about}
+          />
         </div>
         <div>
           <label className="block mb-1 text-sm font-medium">Description</label>

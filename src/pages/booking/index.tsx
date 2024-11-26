@@ -60,6 +60,13 @@ const Tours = () => {
               <p>Location: {tour.location}</p>
               <p>Season: {tour.season}</p>
               <p>Duration: {tour.duration}</p>
+              <p>Duration: {tour.category}</p>
+              <p>
+                About:{tour.about}
+                {/* {tour.about.map((i) => (
+                  <span>{i}</span>
+                ))} */}
+              </p>
               <div className="flex mt-2 space-x-2">
                 <Button
                   onClick={() => handleDelete(tour.id)}

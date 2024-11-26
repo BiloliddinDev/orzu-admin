@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DB } from "@/api/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -11,29 +11,56 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { tourtype } from "@/types";
+import { categorytype, tourtype } from "@/types";
+import TagSelect from "./multiselect";
 
 const CreateTourForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     price: "",
     location: "",
+    about: ["тур"],
     season: "Autumn",
+    category: "Adventure",
     description: "",
     duration: "",
     image: "",
   });
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<categorytype[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const querySnapshot = await getDocs(collection(DB, "categories"));
+      const categoriesData: any = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCategories(categoriesData);
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const formattedTitles = categories
+    .map((category) => `"${category.title}"`)
+    .join(" | ");
 
   const handleSeasonChange = (
     value: "Summer" | "Winter" | "Spring" | "Autumn"
   ) => {
     setFormData({ ...formData, season: value });
+  };
+  const handleCategoryChange = (value: typeof formattedTitles) => {
+    setFormData({ ...formData, category: value });
+  };
+
+  const handleAboutChange = (value: string[]) => {
+    setFormData({ ...formData, about: value });
   };
 
   const handleSubmit = async (e: any) => {
@@ -43,8 +70,10 @@ const CreateTourForm = () => {
     try {
       const tourData = {
         title: formData.title,
+        about: formData.about,
         price: Number(formData.price),
         location: formData.location,
+        category: formData.category,
         season: formData.season,
         description: formData.description,
         duration: formData.duration,
@@ -61,6 +90,8 @@ const CreateTourForm = () => {
         price: "",
         location: "",
         season: "Summer",
+        about: [],
+        category: "Adventure",
         description: "",
         duration: "",
         image: "",
@@ -72,6 +103,7 @@ const CreateTourForm = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="max-w-xl p-4 mx-auto">
       <h1 className="mb-6 text-2xl font-bold">Create New Tour</h1>
@@ -110,6 +142,25 @@ const CreateTourForm = () => {
           />
         </div>
         <div>
+          <label className="block mb-1 text-sm font-medium">Category</label>
+          <Select
+            value={formData.category}
+            onValueChange={handleCategoryChange}
+            required
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.title}>
+                  {category.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
           <label className="block mb-1 text-sm font-medium">Season</label>
           <Select
             value={formData.season}
@@ -126,6 +177,22 @@ const CreateTourForm = () => {
               <SelectItem value="Autumn">Autumn</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+        <div>
+          <label className="block mb-1 text-sm font-medium">About tour</label>
+          <TagSelect
+            onChange={handleAboutChange}
+            initialOptions={[
+              "лето",
+              "россия",
+              "алтай",
+              "зима",
+              "осень",
+              "весна",
+              "новый год",
+            ]}
+            initialTags={formData.about}
+          />
         </div>
         <div>
           <label className="block mb-1 text-sm font-medium">Description</label>

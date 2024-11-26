@@ -2,8 +2,10 @@ export interface tourtype {
   id: any;
   createdAt: Date;
   description: string;
+  category: string;
   duration: string;
   image: string;
+  about: string[];
   location: string;
   price: string;
   season: "Summer" | "Winter" | "Spring" | "Autumn";
