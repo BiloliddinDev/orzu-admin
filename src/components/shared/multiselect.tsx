@@ -38,7 +38,8 @@ const TagSelect: React.FC<TagSelectProps> = ({
     query === ""
       ? options
       : options.filter((option) =>
-          option.toLowerCase().includes(query.toLowerCase())
+          // option.toLowerCase().includes(query.toLowerCase())
+          option.includes(query.toLowerCase())
         );
 
   return (

@@ -19,7 +19,7 @@ const CreateTourForm = () => {
     title: "",
     price: "",
     location: "",
-    about: [""],
+    about: ["тур"],
     season: "Autumn",
     category: "Adventure",
     description: "",

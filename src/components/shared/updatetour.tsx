@@ -135,7 +135,6 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
             </SelectContent>
           </Select>
         </div>
-
         <div>
           <label className="block mb-1 text-sm font-medium">Category</label>
           <Select
