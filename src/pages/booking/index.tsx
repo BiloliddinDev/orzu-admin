@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 import { MdDelete } from "react-icons/md";
 import { Pen } from "lucide-react";
 import EditTourForm from "@/components/shared/updatetour";
-import { DialogClose } from "@/components/ui/dialog";
+import { GrLocation } from "react-icons/gr";
+import { MdAttachMoney } from "react-icons/md";
+import { RiTreeLine } from "react-icons/ri";
+import { GiDuration } from "react-icons/gi";
+import { SiTourbox } from "react-icons/si";
 
 const Tours = () => {
   const [tours, setTours] = useState<tourtype[]>([]);
@@ -38,45 +42,60 @@ const Tours = () => {
 
   return (
     <div>
-      <DialogCloseButton title="Add Tour">
-        <CreateTourForm />
-        <DialogClose asChild>
-          <Button type="button">Close</Button>
-        </DialogClose>
-      </DialogCloseButton>
       <div className="p-4">
-        <h1 className="mb-4 text-2xl font-bold">Tours</h1>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="mb-4 text-2xl font-bold">Tours</h1>
+          <DialogCloseButton title="Add Tour">
+            <CreateTourForm />
+            <Button type="button">Close</Button>
+          </DialogCloseButton>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           {tours.map((tour: tourtype) => (
-            <div key={tour.id} className="p-4 border rounded-lg shadow">
+            <div key={tour.id} className=" border rounded-xl shadow">
               <img
-                width={200}
                 src={tour.image}
                 alt={tour.title}
-                className="w-[300px] mt-2"
+                className="w-full h-[200px] rounded-t-xl mb-2"
               />
-              <h2 className="text-lg font-semibold">{tour.title}</h2>
-              <p>Price: ${tour.price}</p>
-              <p>Location: {tour.location}</p>
-              <p>Season: {tour.season}</p>
-              <p>Duration: {tour.duration}</p>
-              <p>Duration: {tour.category}</p>
-              <p>
-                About:{tour.about}
-                {/* {tour.about.map((i) => (
-                  <span>{i}</span>
-                ))} */}
-              </p>
-              <div className="flex mt-2 space-x-2">
-                <Button
-                  onClick={() => handleDelete(tour.id)}
-                  className="w-full bg-red-600"
-                >
-                  <MdDelete />
-                </Button>
-                <DialogCloseButton title="Edit">
-                  <EditTourForm tour={tour} />
-                </DialogCloseButton>
+              <div className="p-4">
+                {" "}
+                <h2 className="text-lg font-semibold">{tour.title}</h2>
+                <div className="flex flex-row justify-between">
+                  <div>
+                    <GrLocation className="inline" /> {tour.location}
+                  </div>
+                  <div>
+                    <MdAttachMoney className="inline" />
+                    {tour.price}
+                  </div>
+                </div>
+                <div className="flex flex-row justify-between">
+                  <div>
+                    <RiTreeLine className="inline" /> {tour.season}
+                  </div>
+                  <p>{tour.duration}</p>
+                </div>
+                <div>
+                  <SiTourbox className="inline" /> {tour.category}
+                </div>
+                <p>
+                  {/* About:{tour.about} */}
+                  {tour.about.map((i: string) => (
+                    <span>{i}, </span>
+                  ))}
+                </p>
+                <div className="flex mt-2 space-x-2">
+                  <Button
+                    onClick={() => handleDelete(tour.id)}
+                    className="w-full bg-main-300"
+                  >
+                    <MdDelete />
+                  </Button>
+                  <DialogCloseButton title="Edit">
+                    <EditTourForm tour={tour} />
+                  </DialogCloseButton>
+                </div>
               </div>
             </div>
           ))}

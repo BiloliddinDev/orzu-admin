@@ -43,20 +43,20 @@ const TagSelect: React.FC<TagSelectProps> = ({
         );
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {/* Combobox qismi */}
       <Combobox value={query} onChange={addTag}>
         <Combobox.Input
           placeholder="Select or add tags"
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-main-200"
         />
         <Combobox.Options className="border mt-1 rounded-md shadow-lg bg-white">
           {filteredOptions.map((option) => (
             <Combobox.Option
               key={option}
               value={option}
-              className="cursor-pointer p-2 hover:bg-blue-500 hover:text-white"
+              className="cursor-pointer p-2 hover:bg-main-200 hover:text-white"
             >
               {option}
             </Combobox.Option>
@@ -64,7 +64,7 @@ const TagSelect: React.FC<TagSelectProps> = ({
           {query && !options.includes(query) && (
             <Combobox.Option
               value={query}
-              className="cursor-pointer p-2 text-blue-500 hover:bg-blue-500 hover:text-white"
+              className="cursor-pointer p-2 text-main-200 hover:bg-main-200 hover:text-white"
             >
               Add "{query}"
             </Combobox.Option>
@@ -77,7 +77,7 @@ const TagSelect: React.FC<TagSelectProps> = ({
         {selectedTags.map((tag) => (
           <span
             key={tag}
-            className="flex items-center bg-blue-500 text-white px-2 py-1 rounded"
+            className="flex items-center bg-main-200 text-white px-2 py-1 rounded"
           >
             {tag}
             <button

@@ -2,6 +2,7 @@ import { Home, Search, Settings } from "lucide-react";
 import { BsPencilSquare } from "react-icons/bs";
 import { BiCategoryAlt } from "react-icons/bi";
 import { MdTour } from "react-icons/md";
+import { IoTrashOutline } from "react-icons/io5";
 
 export const items = [
   {
@@ -23,6 +24,11 @@ export const items = [
     title: "Tours",
     url: "/tours",
     icon: MdTour,
+  },
+  {
+    title: "Trash",
+    url: "/trash",
+    icon: IoTrashOutline,
   },
   {
     title: "Settings",

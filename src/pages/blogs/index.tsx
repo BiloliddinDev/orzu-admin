@@ -7,6 +7,7 @@ import { Blogstype } from "@/types";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { MdDelete } from "react-icons/md";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState<Blogstype[]>([]);
@@ -21,8 +22,6 @@ const Blogs = () => {
     };
 
     fetchTours();
-
-    console.log(blogs);
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -47,16 +46,16 @@ const Blogs = () => {
             <img src={blog.image} alt={blog.title} />
             <h2>{blog.title}</h2>
             <p>{blog.description.slice(0, 50)}...</p>
-            <div className="flex space-x-2">
-              <DialogCloseButton title="Eddit blogs">
-                <Editblog updateBlog={blog} />
-              </DialogCloseButton>
+            <div className="flex mt-2 space-x-2">
               <Button
                 onClick={() => handleDelete(blog.id)}
-                className="w-full bg-red-500"
+                className="w-full bg-main-300"
               >
-                <Trash2 />
+                <MdDelete />
               </Button>
+              <DialogCloseButton title="Edit">
+                <Editblog updateBlog={blog} />
+              </DialogCloseButton>
             </div>
           </div>
         ))}

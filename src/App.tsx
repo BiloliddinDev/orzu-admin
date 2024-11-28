@@ -4,6 +4,7 @@ import Layout from "./layout";
 import Tours from "./pages/booking";
 import Category from "./pages/category";
 import Blogs from "./pages/blogs";
+import Trash from "./pages/trash";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/tours" element={<Tours />} />
         <Route path="/categ" element={<Category />} />
         <Route path="/blog" element={<Blogs />} />
+        <Route path="/trash" element={<Trash />} />
       </Routes>
     </Layout>
   );
