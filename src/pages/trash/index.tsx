@@ -27,7 +27,7 @@ const Trash = () => {
 
   return (
     <div>
-      <Tabs defaultValue="option1" className="w-full">
+      <Tabs defaultValue="tours" className="w-full">
         <TabsList className="flex">
           <TabsTrigger value="tours">Tours</TabsTrigger>
           <TabsTrigger value="categories">Categories</TabsTrigger>

@@ -25,11 +25,11 @@ const Category = () => {
       const categoryRef = doc(DB, "categories", id);
       await deleteDoc(categoryRef);
 
-      const docRef = await addDoc(
-        collection(DB, "trashcategories"),
-        categoryRef
-      );
-      console.log("Document written with ID: ", docRef.id);
+      // const docRef = await addDoc(
+      //   collection(DB, "trashcategories"),
+      //   categoryRef
+      // );
+      // console.log("Document written with ID: ", docRef.id);
 
       setCategories(categories.filter((category) => category.id !== id));
     } catch (error) {
