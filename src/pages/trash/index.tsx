@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { DialogCloseButton } from "@/components/shared/producmodal";
 import { useEffect, useState } from "react";
 import { DB } from "@/api/firebase";
@@ -68,6 +69,12 @@ const Trash = () => {
       </Tabs>
     </div>
   );
+=======
+import React from "react";
+
+const Trash = () => {
+  return <div>Trash</div>;
+>>>>>>> 91d914a15da79dc78b7487bc26a0a7c8f3413139
 };
 
 export default Trash;

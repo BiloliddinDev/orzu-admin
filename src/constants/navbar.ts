@@ -2,14 +2,10 @@ import { Home, Search, Settings } from "lucide-react";
 import { BsPencilSquare } from "react-icons/bs";
 import { BiCategoryAlt } from "react-icons/bi";
 import { MdTour } from "react-icons/md";
-import { IoTrashOutline } from "react-icons/io5";
+import { FaBoxArchive } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
 
 export const items = [
-  {
-    title: "Home",
-    url: "/",
-    icon: Home,
-  },
   {
     title: "Blog",
     url: "/blog",
@@ -26,9 +22,14 @@ export const items = [
     icon: MdTour,
   },
   {
+    title: "Archive",
+    url: "/archive",
+    icon: FaBoxArchive,
+  },
+  {
     title: "Trash",
     url: "/trash",
-    icon: IoTrashOutline,
+    icon: FaTrash,
   },
   {
     title: "Settings",

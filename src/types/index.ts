@@ -1,3 +1,6 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
 export interface tourtype {
   id: any;
   createdAt: Date;
@@ -25,3 +28,19 @@ export interface Blogstype {
   title: string;
   season: string;
 }
+
+export interface authtype {
+  email: string;
+  password: string;
+}
+
+export const schema = yup
+  .object({
+    email: yup.string().required().min(5, {
+      message: "Email must be at least 5 characters.",
+    }),
+    password: yup.string().required().min(8, {
+      message: "Password must be at least 5 characters.",
+    }),
+  })
+  .required();
