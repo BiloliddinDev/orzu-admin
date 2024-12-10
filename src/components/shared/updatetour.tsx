@@ -197,7 +197,7 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
           <label className="block mb-1 text-sm font-medium">Image URL</label>
           <Input
             type="text"
-            name="imageUrl"
+            name="image"
             value={updatedTour.image}
             onChange={handleChange}
             placeholder="Enter image URL"

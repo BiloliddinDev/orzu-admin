@@ -82,7 +82,7 @@ const Tours = () => {
                 <p>
                   {/* About:{tour.about} */}
                   {tour.about.map((i: string) => (
-                    <span>{i}, </span>
+                    <span key={i}>{i}, </span>
                   ))}
                 </p>
                 <div className="flex mt-2 space-x-2">
