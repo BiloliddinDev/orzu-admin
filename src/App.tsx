@@ -11,10 +11,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./auth/login";
 import { ProtectedRoute } from "./auth";
+import CreateBlog from "./pages/blogs/create";
+import EditBlog from "./pages/blogs/edit";
 
 const protectedRoutes = [
   { path: "/tours", element: <Tours /> },
   { path: "/categ", element: <Category /> },
+  { path: "/blog/create", element: <CreateBlog /> },
+  { path: "/blog/edit/:id", element: <EditBlog /> },
   { path: "/blog", element: <Blogs /> },
   { path: "/trash", element: <Trash /> },
   { path: "/archive", element: <Archive /> },

@@ -21,12 +21,19 @@ export interface categorytype {
 }
 
 export interface Blogstype {
-  id?: any;
+  id?: string | any;
   createdAt: Date | string;
-  description: string;
+  title: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
+  description: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
   image: string;
-  title: string;
-  season: string;
 }
 
 export interface authtype {

@@ -1,16 +1,19 @@
 import { DB } from "@/api/firebase";
-import Blogcreate from "@/components/shared/blogcreate";
 import Editblog from "@/components/shared/editblog";
 import { DialogCloseButton } from "@/components/shared/producmodal";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Blogstype } from "@/types";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { Trash2 } from "lucide-react";
+import { Search, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState<Blogstype[]>([]);
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState<string>("");
   useEffect(() => {
     const fetchTours = async () => {
       const querySnapshot = await getDocs(collection(DB, "blog"));
@@ -42,20 +45,31 @@ const Blogs = () => {
 
   return (
     <div>
-      <div>
-        <DialogCloseButton title="Add Blogs">
-          <Blogcreate />
-        </DialogCloseButton>
+      <div className="flex items-center justify-between mx-3 border-b-2">
+        <Button
+          className="mb-3 "
+          onClick={() => navigate("/blog/create")}
+          title="Add Blogs"
+        >
+          Create Blogs
+        </Button>
+        <div className="relative w-[350px] ">
+          <Search className="absolute top-[5px] left-2" />
+          <Input
+            onChange={(e) => setSearchText(e.target.value)}
+            className="w-full pl-[35px]"
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-4 gap-2 mt-4">
+      <div className="flex flex-wrap gap-4 mt-3">
         {blogs.map((blog: Blogstype) => (
           <div
             key={blog.id}
             className="w-[300px]  flex flex-col items-center border p-2"
           >
-            <img src={blog.image} alt={blog.title} />
-            <h2>{blog.title}</h2>
-            <p>{blog.description.slice(0, 50)}...</p>
+            <img src={blog.image} alt={blog.title.uz} />
+            <h2>{blog.title.uz}</h2>
+            <p>{blog.description.uz.slice(0, 50)}...</p>
             <div className="flex mt-2 space-x-2">
               <Button
                 onClick={() => handleDelete(blog.id)}
@@ -63,9 +77,12 @@ const Blogs = () => {
               >
                 <MdDelete />
               </Button>
-              <DialogCloseButton title="Edit">
-                <Editblog updateBlog={blog} onUpdate={handleUpdate} />
-              </DialogCloseButton>
+              <Button
+                onClick={() => navigate(`/blog/edit/${blog.id}`)}
+                title="Edit"
+              >
+                Edit data
+              </Button>
             </div>
           </div>
         ))}
