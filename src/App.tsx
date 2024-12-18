@@ -1,29 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/main";
 import Layout from "./layout";
-import Tours from "./pages/booking";
-import Category from "./pages/category";
-import Blogs from "./pages/blogs";
-import Trash from "./pages/trash";
-import Archive from "./pages/archive";
-import Setting from "./pages/setting";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./auth/login";
 import { ProtectedRoute } from "./auth";
-import CreateBlog from "./pages/blogs/create";
-import EditBlog from "./pages/blogs/edit";
-
-const protectedRoutes = [
-  { path: "/tours", element: <Tours /> },
-  { path: "/categ", element: <Category /> },
-  { path: "/blog/create", element: <CreateBlog /> },
-  { path: "/blog/edit/:id", element: <EditBlog /> },
-  { path: "/blog", element: <Blogs /> },
-  { path: "/trash", element: <Trash /> },
-  { path: "/archive", element: <Archive /> },
-  { path: "/settings", element: <Setting /> },
-];
+import { protectedRoutes } from "./constants/routs";
 
 function App() {
   return (

@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-const Category = () => {
+const City = () => {
   const [categories, setCategories] = useState<categorytype[]>([]);
   const navigate = useNavigate();
   const handleDelete = async (id: string) => {
     try {
-      const categoryRef = doc(DB, "categories", id);
+      const categoryRef = doc(DB, "city", id);
       await deleteDoc(categoryRef);
 
       setCategories(categories.filter((category) => category.id !== id));
@@ -21,7 +21,7 @@ const Category = () => {
   };
   useEffect(() => {
     const fetchCategory = async () => {
-      const querySnapshot = await getDocs(collection(DB, "categories"));
+      const querySnapshot = await getDocs(collection(DB, "city"));
       const categorydata: any = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -37,7 +37,7 @@ const Category = () => {
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <h1 className="mb-4 text-2xl font-bold">Categories</h1>
-          <Button onClick={() => navigate("/categ/create")}>
+          <Button onClick={() => navigate("/city/create")}>
             Create new Category
           </Button>
         </div>
@@ -53,7 +53,7 @@ const Category = () => {
                 >
                   <MdDelete />
                 </Button>
-                <Button onClick={() => navigate(`/categ/edit/${category.id}`)}>
+                <Button onClick={() => navigate(`/city/edit/${category.id}`)}>
                   Update Category
                 </Button>
               </div>
@@ -65,4 +65,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default City;

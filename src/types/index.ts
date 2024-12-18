@@ -18,6 +18,9 @@ export interface categorytype {
   id: any;
   title: string;
   description: string;
+  titleen: string;
+  titleru: string;
+  titleuz: string;
 }
 
 export interface Blogstype {

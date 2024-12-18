@@ -2,7 +2,7 @@ import { Home, Search, Settings } from "lucide-react";
 import { BsPencilSquare } from "react-icons/bs";
 import { BiCategoryAlt } from "react-icons/bi";
 import { MdTour } from "react-icons/md";
-import { FaBoxArchive } from "react-icons/fa6";
+import { FaBoxArchive, FaCity } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 
 export const items = [
@@ -25,6 +25,11 @@ export const items = [
     title: "Archive",
     url: "/archive",
     icon: FaBoxArchive,
+  },
+  {
+    title: "Cauntry",
+    url: "/city",
+    icon: FaCity,
   },
   {
     title: "Trash",
