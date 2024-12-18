@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Blogstype } from "@/types";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { Search, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
