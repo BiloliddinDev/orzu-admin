@@ -10,6 +10,7 @@ export interface tourtype {
   image: string;
   about: string[];
   location: string;
+  city: string;
   price: string;
   season: "Summer" | "Winter" | "Spring" | "Autumn";
   title: string;

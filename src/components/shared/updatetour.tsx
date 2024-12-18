@@ -19,22 +19,37 @@ interface EditTourFormProps {
 }
 
 const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
-  const [updatedTour, setUpdatedTour]: any = useState(tour);
+  const [updatedTour, setUpdatedTour]: any = useState({ ...tour });
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<categorytype[]>([]);
+  const [city, setCity] = useState<categorytype[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       const querySnapshot = await getDocs(collection(DB, "categories"));
-      const categoriesData: any = querySnapshot.docs.map((doc) => ({
+      const categoriesData: categorytype[] = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      }));
+      })) as categorytype[];
       setCategories(categoriesData);
     };
 
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      const querySnapshot = await getDocs(collection(DB, "city"));
+      const citiesData: categorytype[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as categorytype[];
+      setCity(citiesData);
+    };
+
+    fetchCities();
+  }, []);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -45,22 +60,10 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
     }));
   };
 
-  const handleSeasonChange = (value: string) => {
+  const handleSelectChange = (key: string, value: string) => {
     setUpdatedTour((prevTour: any) => ({
       ...prevTour,
-      season: value,
-    }));
-  };
-  const handleCategoryChange = (value: string) => {
-    setUpdatedTour((prevTour: any) => ({
-      ...prevTour,
-      category: value,
-    }));
-  };
-  const handleAboutChange = (value: string[]) => {
-    setUpdatedTour((prevTour: any) => ({
-      ...prevTour,
-      about: value,
+      [key]: value,
     }));
   };
 
@@ -69,8 +72,13 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
     setLoading(true);
 
     try {
-      const tourDocRef = doc(DB, "tours", updatedTour.id);
-      await updateDoc(tourDocRef, updatedTour);
+      const sanitizedTour = {
+        ...updatedTour,
+        about: Array.isArray(updatedTour.about) ? updatedTour.about : [],
+      };
+
+      const tourDocRef = doc(DB, "tours", sanitizedTour.id);
+      await updateDoc(tourDocRef, sanitizedTour);
       alert("Tour successfully updated!");
     } catch (error) {
       console.error("Error updating tour: ", error);
@@ -81,15 +89,15 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
   };
 
   return (
-    <div className="p-4">
-      <h2>Edit Tour</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="p-6 bg-white rounded shadow">
+      <h2 className="mb-4 text-2xl font-bold">Edit Tour</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block mb-1 text-sm font-medium">Title</label>
           <Input
             type="text"
             name="title"
-            value={updatedTour.title}
+            value={updatedTour.title || ""}
             onChange={handleChange}
             placeholder="Enter tour title"
             required
@@ -100,7 +108,7 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
           <Input
             type="number"
             name="price"
-            value={updatedTour.price}
+            value={updatedTour.price || ""}
             onChange={handleChange}
             placeholder="Enter price in USD"
             required
@@ -111,7 +119,7 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
           <Input
             type="text"
             name="location"
-            value={updatedTour.location}
+            value={updatedTour.location || ""}
             onChange={handleChange}
             placeholder="Enter location"
             required
@@ -120,9 +128,8 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
         <div>
           <label className="block mb-1 text-sm font-medium">Season</label>
           <Select
-            value={updatedTour.season}
-            onValueChange={handleSeasonChange}
-            required
+            value={updatedTour.season || ""}
+            onValueChange={(value) => handleSelectChange("season", value)}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select season" />
@@ -138,12 +145,11 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
         <div>
           <label className="block mb-1 text-sm font-medium">Category</label>
           <Select
-            value={updatedTour.category}
-            onValueChange={handleCategoryChange}
-            required
+            value={updatedTour.category || ""}
+            onValueChange={(value) => handleSelectChange("category", value)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select Category" />
+              <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
               {categories.map((category) => (
@@ -155,27 +161,36 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
           </Select>
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium">About tour</label>
-
+          <label className="block mb-1 text-sm font-medium">City</label>
+          <Select
+            value={updatedTour.city || ""}
+            onValueChange={(value) => handleSelectChange("city", value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select city" />
+            </SelectTrigger>
+            <SelectContent>
+              {city.map((cityItem) => (
+                <SelectItem key={cityItem.id} value={cityItem.title}>
+                  {cityItem.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <label className="block mb-1 text-sm font-medium">About Tour</label>
           <TagSelect
-            onChange={handleAboutChange}
-            initialOptions={[
-              "лето",
-              "россия",
-              "алтай",
-              "зима",
-              "осень",
-              "весна",
-              "новый год",
-            ]}
-            initialTags={updatedTour.about}
+            onChange={(value) => handleSelectChange("about", value.join(","))}
+            initialOptions={["summer", "winter", "spring", "autumn"]}
+            initialTags={updatedTour.about || []}
           />
         </div>
         <div>
           <label className="block mb-1 text-sm font-medium">Description</label>
           <Textarea
             name="description"
-            value={updatedTour.description}
+            value={updatedTour.description || ""}
             onChange={handleChange}
             placeholder="Enter tour description"
             rows={4}
@@ -187,7 +202,7 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
           <Input
             type="text"
             name="duration"
-            value={updatedTour.duration}
+            value={updatedTour.duration || ""}
             onChange={handleChange}
             placeholder="e.g., 3 days, 2 nights"
             required
@@ -198,7 +213,7 @@ const EditTourForm: React.FC<EditTourFormProps> = ({ tour }) => {
           <Input
             type="text"
             name="image"
-            value={updatedTour.image}
+            value={updatedTour.image || ""}
             onChange={handleChange}
             placeholder="Enter image URL"
             required
