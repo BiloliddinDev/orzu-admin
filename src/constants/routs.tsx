@@ -9,13 +9,18 @@ import UpdateCategoryForm from "@/pages/category/edit";
 import City from "@/pages/city";
 import CityCreate from "@/pages/city/create";
 import EditCity from "@/pages/city/edit";
+import Products from "@/pages/products";
+import ToursCreate from "@/pages/products/create";
+import { ToursDetel } from "@/pages/products/detel";
 import Setting from "@/pages/setting";
 import Trash from "@/pages/trash";
 
 export const protectedRoutes = [
-  { path: "/tours", element: <Tours /> },
+  { path: "/tours", element: <Products /> },
+  { path: "/tours/create", element: <ToursCreate /> },
   { path: "/categ", element: <Category /> },
   { path: "/categ/create", element: <CreateCategoryForm /> },
+  { path: "/tours/detel/:id", element: <ToursDetel /> },
   { path: "/categ/edit/:id", element: <UpdateCategoryForm /> },
   { path: "/blog/create", element: <CreateBlog /> },
   { path: "/blog/edit/:id", element: <EditBlog /> },
