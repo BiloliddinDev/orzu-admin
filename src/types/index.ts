@@ -1,3 +1,4 @@
+import { title } from "process";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -14,6 +15,40 @@ export interface tourtype {
   price: string;
   season: "Summer" | "Winter" | "Spring" | "Autumn";
   title: string;
+}
+
+export interface toursmain {
+  title: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
+  time: string;
+  transport: string;
+  accommodation: string;
+  productId: string;
+  id?: string;
+}
+
+export interface ProductType {
+  id: string;
+  image: "";
+  title: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
+  season: {
+    unitLabelUz: "Yoz" | "Qish" | "Bahor" | "Kuz";
+    unitLabelRu: "Лето" | "Зима" | "Весна" | "Осень";
+    unitLabelEn: "Summer" | "Winter" | "Spring" | "Autumn";
+  };
+  duration: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
+  price: number;
 }
 export interface categorytype {
   id: any;
