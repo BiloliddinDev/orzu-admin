@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 const CreateCategoryForm = () => {
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
+    descriptionuz: "",
+    descriptionru: "",
+    descriptionen: "",
     titleuz: "",
     titleru: "",
     titleen: "",
@@ -30,7 +32,9 @@ const CreateCategoryForm = () => {
     try {
       const categoryData = {
         title: formData.title,
-        description: formData.description,
+        descriptionuz: formData.descriptionuz,
+        descriptionru: formData.descriptionru,
+        descriptionen: formData.descriptionen,
         titleuz: formData.titleuz,
         titleru: formData.titleru,
         titleen: formData.titleen,
@@ -43,7 +47,9 @@ const CreateCategoryForm = () => {
       alert("Category created successfully!");
       setFormData({
         title: "",
-        description: "",
+        descriptionuz: "",
+        descriptionru: "",
+        descriptionen: "",
         titleuz: "",
         titleru: "",
         titleen: "",
@@ -74,10 +80,30 @@ const CreateCategoryForm = () => {
         </div>
 
         <div>
-          <label className="block mb-1 text-sm font-medium">Description</label>
+          <label className="block mb-1 text-sm font-medium">Description  (Uzbek)</label>
           <Textarea
-            name="description"
-            value={formData.description}
+            name="descriptionuz"
+            value={formData.descriptionuz}
+            onChange={handleChange}
+            placeholder="Enter category description"
+            rows={4}
+            required
+          />
+        </div> <div>
+          <label className="block mb-1 text-sm font-medium">Description (Russian)</label>
+          <Textarea
+            name="descriptionru"
+            value={formData.descriptionru}
+            onChange={handleChange}
+            placeholder="Enter category description"
+            rows={4}
+            required
+          />
+        </div> <div>
+          <label className="block mb-1 text-sm font-medium">Description (English)</label>
+          <Textarea
+            name="descriptionen"
+            value={formData.descriptionen}
             onChange={handleChange}
             placeholder="Enter category description"
             rows={4}

@@ -53,7 +53,9 @@ export interface ProductType {
 export interface categorytype {
   id: any;
   title: string;
-  description: string;
+  descriptionuz: string;
+  descriptionru: string;
+  descriptionen: string;
   titleen: string;
   titleru: string;
   titleuz: string;

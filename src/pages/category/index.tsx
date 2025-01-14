@@ -44,16 +44,17 @@ const Category = () => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           {categories.map((category: categorytype) => (
             <div key={category.id} className="p-4 border shadow rounded-2xl">
-              <h2 className="text-lg font-semibold">{category.title}</h2>
-              <p className="font-sans text-base">{category.description}</p>
-              <div className="flex mt-2 space-x-2">
+              <h2 className="text-lg font-semibold">{category.titleen}</h2>
+              <p className="font-sans text-base line-clamp-5">{category.descriptionen}</p>
+              <div className="flex justify-between mt-4 gap-3">
                 <Button
                   onClick={() => handleDelete(category.id)}
-                  className="w-full bg-main-300"
+                  className=" bg-main-300"
                 >
-                  <MdDelete />
+                  {/* <MdDelete /> */}
+                  Delete Category
                 </Button>
-                <Button onClick={() => navigate(`/categ/edit/${category.id}`)}>
+                <Button className="" onClick={() => navigate(`/categ/edit/${category.id}`)}>
                   Update Category
                 </Button>
               </div>

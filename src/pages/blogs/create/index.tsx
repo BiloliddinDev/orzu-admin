@@ -36,9 +36,9 @@ const CreateBlog = () => {
       ...prevFormData,
       [field]: lang
         ? {
-            ...prevFormData[field],
-            [lang]: value,
-          }
+          ...prevFormData[field],
+          [lang]: value,
+        }
         : value,
     }));
   };
@@ -101,7 +101,7 @@ const CreateBlog = () => {
             name="title[uz]"
             value={formData.title.uz}
             onChange={handleChange}
-            placeholder="Enter tour title"
+            placeholder="Enter blog title"
             required
           />
           <label className="block my-2 text-sm font-medium">Title Ru</label>
@@ -110,7 +110,7 @@ const CreateBlog = () => {
             name="title[ru]"
             value={formData.title.ru}
             onChange={handleChange}
-            placeholder="Enter tour title"
+            placeholder="Enter blog title"
             required
           />
           <label className="block my-2 text-sm font-medium">Title En</label>
@@ -119,7 +119,7 @@ const CreateBlog = () => {
             name="title[en]"
             value={formData.title.en}
             onChange={handleChange}
-            placeholder="Enter tour title"
+            placeholder="Enter blog title"
             required
           />
         </div>
@@ -131,7 +131,7 @@ const CreateBlog = () => {
             name="description[uz]"
             value={formData.description.uz}
             onChange={handleChange}
-            placeholder="Enter tour description"
+            placeholder="Enter blog description"
             rows={4}
             required
           />
@@ -142,7 +142,7 @@ const CreateBlog = () => {
             name="description[ru]"
             value={formData.description.ru}
             onChange={handleChange}
-            placeholder="Enter tour description"
+            placeholder="Enter blog description"
             rows={4}
             required
           />
@@ -153,7 +153,7 @@ const CreateBlog = () => {
             name="description[en]"
             value={formData.description.en}
             onChange={handleChange}
-            placeholder="Enter tour description"
+            placeholder="Enter blog description"
             rows={4}
             required
           />
@@ -172,7 +172,7 @@ const CreateBlog = () => {
         </div>
         <div className="flex items-center justify-end gap-2 w-[30%]">
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Creating..." : "Create Tour"}
+            {loading ? "Creating..." : "Create blog"}
           </Button>
           <Button
             type="submit"

@@ -17,15 +17,6 @@ import { SiTourbox } from "react-icons/si";
 const Tours = () => {
   const [tours, setTours] = useState<tourtype[]>([]);
 
-  const handleDelete = async (id: string) => {
-    try {
-      const tourRef = doc(DB, "tours", id);
-      await deleteDoc(tourRef);
-      setTours(tours.filter((tour) => tour.id !== id));
-    } catch (error) {
-      console.error("Error deleting document: ", error);
-    }
-  };
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -39,6 +30,18 @@ const Tours = () => {
 
     fetchTours();
   }, []);
+  console.log(tours);
+
+
+  const handleDelete = async (id: string) => {
+    try {
+      const tourRef = doc(DB, "tours", id);
+      await deleteDoc(tourRef);
+      setTours(tours.filter((tour) => tour.id !== id));
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
+  };
 
   return (
     <div>
@@ -51,7 +54,7 @@ const Tours = () => {
           </DialogCloseButton>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          {tours.map((tour: tourtype) => (
+          {tours?.map((tour) => (
             <div key={tour.id} className="border shadow  rounded-xl">
               <img
                 src={tour.image}
@@ -79,12 +82,11 @@ const Tours = () => {
                 <div>
                   <SiTourbox className="inline" /> {tour.category}
                 </div>
-                <p>
-                  {/* About:{tour.about} */}
+                {/* <p>
                   {tour.about.map((i: string) => (
                     <span key={i}>{i}, </span>
                   ))}
-                </p>
+                </p> */}
                 <div className="flex mt-2 space-x-2">
                   <Button
                     onClick={() => handleDelete(tour.id)}

@@ -11,7 +11,9 @@ interface BlogData {
   titleuz: string;
   titleru: string;
   titleen: string;
-  description: string;
+  descriptionuz: string;
+  descriptionru: string;
+  descriptionen: string;
   image: string;
 }
 
@@ -93,7 +95,7 @@ const EditBlog = () => {
             name="titleuz"
             value={formData.titleuz}
             onChange={handleChange}
-            placeholder="Enter blog title in Uzbek"
+            placeholder="Enter Category title in Uzbek"
             required
           />
         </div>
@@ -104,7 +106,7 @@ const EditBlog = () => {
             name="titleru"
             value={formData.titleru}
             onChange={handleChange}
-            placeholder="Enter blog title in Russian"
+            placeholder="Enter Category title in Russian"
             required
           />
         </div>
@@ -115,17 +117,37 @@ const EditBlog = () => {
             name="titleen"
             value={formData.titleen}
             onChange={handleChange}
-            placeholder="Enter blog title in English"
+            placeholder="Enter Category title in English"
             required
           />
         </div>
         <div>
-          <label className="block mb-2 text-sm font-medium">Description</label>
+          <label className="block mb-2 text-sm font-medium">Description  (Uzbek)</label>
           <Textarea
-            name="description"
-            value={formData.description}
+            name="descriptionuz"
+            value={formData.descriptionuz}
             onChange={handleChange}
-            placeholder="Enter blog description"
+            placeholder="Enter Category description in Uzbek"
+            rows={4}
+            required
+          />
+        </div><div>
+          <label className="block mb-2 text-sm font-medium">Description (Russian)</label>
+          <Textarea
+            name="descriptionru"
+            value={formData.descriptionru}
+            onChange={handleChange}
+            placeholder="Enter Category description in russian"
+            rows={4}
+            required
+          />
+        </div><div>
+          <label className="block mb-2 text-sm font-medium">Description  (English)</label>
+          <Textarea
+            name="descriptionen"
+            value={formData.descriptionen}
+            onChange={handleChange}
+            placeholder="Enter Category description in english"
             rows={4}
             required
           />
@@ -143,7 +165,7 @@ const EditBlog = () => {
         </div>
         <div className="flex justify-end space-x-4">
           <Button type="submit" disabled={loading}>
-            {loading ? "Updating..." : "Update Blog"}
+            {loading ? "Updating..." : "Update Category"}
           </Button>
           <Button
             type="button"

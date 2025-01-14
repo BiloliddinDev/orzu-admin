@@ -44,8 +44,8 @@ const City = () => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           {categories.map((category: categorytype) => (
             <div key={category.id} className="p-4 border shadow rounded-2xl">
-              <h2 className="text-lg font-semibold">{category.title}</h2>
-              <p className="font-sans text-base">{category.description}</p>
+              <h2 className="text-lg font-semibold">{category.titleen}</h2>
+              <p className="font-sans text-base">{category.descriptionen}</p>
               <div className="flex mt-2 space-x-2">
                 <Button
                   onClick={() => handleDelete(category.id)}

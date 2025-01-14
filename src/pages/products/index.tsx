@@ -69,7 +69,8 @@ const Products = () => {
                 onClick={() => handleDelete(product.id)}
                 className="w-full bg-main-300"
               >
-                <MdDelete />
+                {/* <MdDelete /> */}
+                Delete data
               </Button>
               <Button
                 // onClick={() => navigate(`/products/edit/${product.id}`)}

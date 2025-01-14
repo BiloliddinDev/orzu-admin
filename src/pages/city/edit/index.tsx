@@ -11,7 +11,9 @@ interface BlogData {
   titleuz: string;
   titleru: string;
   titleen: string;
-  description: string;
+  descriptionuz: string;
+  descriptionru: string;
+  descriptionen: string;
   images: string;
   flag: string;
 }
@@ -72,7 +74,7 @@ const EditCity = () => {
       const docRef = doc(DB, "city", id);
       await updateDoc(docRef, { ...formData, updatedAt: new Date() });
       toast.success("Category updated successfully!");
-      navigate("/categ");
+      navigate("/city");
     } catch (error) {
       console.error("Error updating blog:", error);
       toast.error("Failed to update the blog.");
@@ -121,10 +123,30 @@ const EditCity = () => {
           />
         </div>
         <div>
-          <label className="block mb-2 text-sm font-medium">Description</label>
+          <label className="block mb-2 text-sm font-medium">Description (uz)</label>
           <Textarea
-            name="description"
-            value={formData.description}
+            name="descriptionuz"
+            value={formData.descriptionuz}
+            onChange={handleChange}
+            placeholder="Enter blog description"
+            rows={4}
+            required
+          />
+        </div><div>
+          <label className="block mb-2 text-sm font-medium">Description (ru)</label>
+          <Textarea
+            name="descriptionru"
+            value={formData.descriptionru}
+            onChange={handleChange}
+            placeholder="Enter blog description"
+            rows={4}
+            required
+          />
+        </div><div>
+          <label className="block mb-2 text-sm font-medium">Description (en)</label>
+          <Textarea
+            name="descriptionen"
+            value={formData.descriptionen}
             onChange={handleChange}
             placeholder="Enter blog description"
             rows={4}

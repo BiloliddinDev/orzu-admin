@@ -1,3 +1,5 @@
+import CreateTourForm from "@/components/shared/creadtedtour";
+import EditTourForm from "@/components/shared/updatetour";
 import Archive from "@/pages/archive";
 import Blogs from "@/pages/blogs";
 import CreateBlog from "@/pages/blogs/create";
@@ -17,6 +19,8 @@ import Trash from "@/pages/trash";
 
 export const protectedRoutes = [
   { path: "/tours", element: <Products /> },
+  { path: "/toursCard", element: <Tours /> },
+  { path: "/toursCard/create", element: <CreateTourForm /> },
   { path: "/tours/create", element: <ToursCreate /> },
   { path: "/categ", element: <Category /> },
   { path: "/categ/create", element: <CreateCategoryForm /> },
