@@ -1,217 +1,112 @@
 import React, { useState } from "react";
-import { DB } from "@/api/firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import Select from "react-select"; // Assuming you are using react-select for multi-select
-import { title } from "process";
+import { Card } from "@/components/ui/card";
+import { useForm, FormProvider } from "react-hook-form";
+// import { TourAboutDetailsForm } from "./TourAboutDetails";
+// import TourExpensesForm from "./TourExpenses";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { TourAboutDetailsForm } from "./TourAboutDetails";
+import TourExpensesForm from "./TourExpenses";
+import TourMainDetails from "./TourMainDetails";
+import TourPlanForm from "./TourPlan";
+import { TourProgramDescriptionForm } from "./TourProgramDescription";
 
-const CreateProductForm = () => {
-  const [formData, setFormData] = useState({
-    image: "",
-    titleUz: "",
-    titleRu: "",
-    titleEn: "",
-    durationUz: "",
-    durationRu: "",
-    durationEn: "",
-    price: 0,
-    season: [],
-  });
-  const [loading, setLoading] = useState(false);
 
-  const seasonOptions = [
-    { value: "Yoz", label: "Yoz" },
-    { value: "Qish", label: "Qish" },
-    { value: "Bahor", label: "Bahor" },
-    { value: "Kuz", label: "Kuz" },
-  ];
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+export function CreateTours() {
+  const methods = useForm();
+  const [isAboutDialogOpen, setIsAboutDialogOpen] = useState(false);
+  const [isExpensesDialogOpen, setIsExpensesDialogOpen] = useState(false);
+  const [tourDetails, setTourDetails] = useState({});
+  const [tourExpenses, setTourExpenses] = useState([]);
+
+  const onSubmit = (data: any) => {
+    const combinedData = {
+      ...data,
+      tourDetails,
+      tourExpenses,
+    };
+    console.log("Combined Form Data:", combinedData);
   };
 
-  const handleSeasonChange = (selectedOptions: any) => {
-    setFormData({ ...formData, season: selectedOptions });
-  };
+  React.useEffect(() => {
+    methods.reset({
+      ism: "John",
+      familiya: "Doe",
+      email: "john@example.com",
+      telefon: "+998901234567"
+    })
+  }, [methods.reset])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  // const handleTourDetailsSubmit = (data: any) => {
+  //   setTourDetails(data);
+  //   setIsAboutDialogOpen(false); // Dialogni yopish
+  // };
 
-    try {
-      const productData = {
-        image: formData.image,
-        duration: {
-          uz: formData.durationUz,
-          ru: formData.durationRu,
-          en: formData.durationEn,
-        },
-
-        title: {
-          uz: formData.titleUz,
-          ru: formData.titleRu,
-          en: formData.titleEn,
-        },
-        price: formData.price,
-        season: formData.season.map((option: any) => option.value),
-      };
-
-      const docRef = await addDoc(collection(DB, "products"), productData);
-      console.log("Document written with ID: ", docRef.id);
-
-      alert("Product created successfully!");
-      setFormData({
-        image: "",
-        durationUz: "",
-        durationRu: "",
-        durationEn: "",
-        titleUz: "",
-        titleRu: "",
-        titleEn: "",
-        price: 0,
-        season: [],
-      });
-    } catch (error) {
-      console.error("Error creating product:", error);
-      alert("Failed to create the product. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleTourExpensesSubmit = (data: any) => {
+  //   setTourExpenses(data);
+  //   setIsExpensesDialogOpen(false); // Dialogni yopish
+  // };
 
   return (
-    <div className="max-w-xl p-4 mx-auto">
-      <h1 className="mb-6 text-2xl font-bold">Create New Product</h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block mb-1 text-sm font-medium">Image URL</label>
-          <Input
-            type="text"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            placeholder="Enter image URL"
-            required
-          />
-        </div>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        {/* <Card className="p-6 rounded-lg shadow-lg">
+          <Dialog open={isAboutDialogOpen} onOpenChange={setIsAboutDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="mb-4">
+                Open Tour About Details Form
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Tour About Details</DialogTitle>
+              </DialogHeader>
+              <TourAboutDetailsForm onSubmitData={handleTourDetailsSubmit} />
+            </DialogContent>
+          </Dialog>
 
-        <div>
-          <label className="block mb-1 text-sm font-medium">
-            Title (Uzbek)
-          </label>
-          <Input
-            type="text"
-            name="titleUz"
-            value={formData.titleUz}
-            onChange={handleChange}
-            placeholder="Enter duration in Uzbek"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 text-sm font-medium">
-            Title (Russian)
-          </label>
-          <Input
-            type="text"
-            name="titleRu"
-            value={formData.titleRu}
-            onChange={handleChange}
-            placeholder="Enter duration in Uzbek"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 text-sm font-medium">
-            Title (English)
-          </label>
-          <Input
-            type="text"
-            name="titleEn"
-            value={formData.titleEn}
-            onChange={handleChange}
-            placeholder="Enter duration in Uzbek"
-            required
-          />
-        </div>
+          <Dialog
+            open={isExpensesDialogOpen}
+            onOpenChange={setIsExpensesDialogOpen}
+          >
+            <DialogTrigger asChild>
+              <Button variant="outline" className="mb-4">
+                Open Tour Expenses Form
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Tour Expenses</DialogTitle>
+              </DialogHeader>
+              <TourExpensesForm onSubmitData={handleTourExpensesSubmit} />
+            </DialogContent>
+          </Dialog>
 
-        <div>
-          <label className="block mb-1 text-sm font-medium">
-            Duration (Uzbek)
-          </label>
-          <Input
-            type="text"
-            name="durationUz"
-            value={formData.durationUz}
-            onChange={handleChange}
-            placeholder="Enter duration in Uzbek"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 text-sm font-medium">
-            Duration (Russian)
-          </label>
-          <Input
-            type="text"
-            name="durationRu"
-            value={formData.durationRu}
-            onChange={handleChange}
-            placeholder="Enter duration in Russian"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 text-sm font-medium">
-            Duration (English)
-          </label>
-          <Input
-            type="text"
-            name="durationEn"
-            value={formData.durationEn}
-            onChange={handleChange}
-            placeholder="Enter duration in English"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 text-sm font-medium">Price</label>
-          <Input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            placeholder="Enter price"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1 text-sm font-medium">Season</label>
-          <Select
-            isMulti
-            name="season"
-            options={seasonOptions}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleSeasonChange}
-          />
-        </div>
-
-        <Button type="submit" disabled={loading} className="w-full">
-          {loading ? "Creating..." : "Create Product"}
-        </Button>
+          <Button type="submit" className="mt-4">
+            Submit Main Form
+          </Button>
+        </Card> */}
+        <TourAboutDetailsForm onSubmitData={() => { }} />
+        <TourExpensesForm onSubmitData={() => { }} />
+        {/* <TourMainDetails /> */}
+        <TourPlanForm onNextStep={() => { }} onBackStep={() => { }} />
+        <TourProgramDescriptionForm onNextStep={() => { }} onBackStep={() => { }} />
       </form>
-    </div>
+    </FormProvider>
   );
-};
+}
 
-export default CreateProductForm;
+// import React from "react";
+
+// const CreateTours = () => {
+//   return <div></div>;
+// };
+
+// export default CreateTours;
