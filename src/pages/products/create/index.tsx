@@ -17,12 +17,14 @@ import TourMainDetails from "./TourMainDetails";
 import TourPlanForm from "./TourPlan";
 import { TourProgramDescriptionForm } from "./TourProgramDescription";
 
+
+
 export function CreateTours() {
   const methods = useForm();
-  // const [isAboutDialogOpen, setIsAboutDialogOpen] = useState(false);
-  // const [isExpensesDialogOpen, setIsExpensesDialogOpen] = useState(false);
-  // const [tourDetails, setTourDetails] = useState({});
-  // const [tourExpenses, setTourExpenses] = useState([]);
+  const [isAboutDialogOpen, setIsAboutDialogOpen] = useState(false);
+  const [isExpensesDialogOpen, setIsExpensesDialogOpen] = useState(false);
+  const [tourDetails, setTourDetails] = useState({});
+  const [tourExpenses, setTourExpenses] = useState([]);
 
   const onSubmit = (data: any) => {
     const combinedData = {
@@ -32,6 +34,15 @@ export function CreateTours() {
     };
     console.log("Combined Form Data:", combinedData);
   };
+
+  React.useEffect(() => {
+    methods.reset({
+      ism: "John",
+      familiya: "Doe",
+      email: "john@example.com",
+      telefon: "+998901234567"
+    })
+  }, [methods.reset])
 
   // const handleTourDetailsSubmit = (data: any) => {
   //   setTourDetails(data);
@@ -82,11 +93,11 @@ export function CreateTours() {
             Submit Main Form
           </Button>
         </Card> */}
-        <TourAboutDetailsForm />
-        <TourExpensesForm />
-        <TourMainDetails />
-        <TourPlanForm />
-        <TourProgramDescriptionForm />
+        <TourAboutDetailsForm onSubmitData={() => { }} />
+        <TourExpensesForm onSubmitData={() => { }} />
+        {/* <TourMainDetails /> */}
+        <TourPlanForm onNextStep={() => { }} onBackStep={() => { }} />
+        <TourProgramDescriptionForm onNextStep={() => { }} onBackStep={() => { }} />
       </form>
     </FormProvider>
   );

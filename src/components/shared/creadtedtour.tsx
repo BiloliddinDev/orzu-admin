@@ -41,6 +41,8 @@ const CreateTourForm = () => {
 
     fetchCategories();
   }, []);
+  console.log(categories);
+
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

@@ -25,6 +25,7 @@ import { TourMainDetailsType } from "@/types";
 
 const Products = () => {
   const initialFormData: TourMainDetailsType = {
+    id: "",
     title: { uz: "", ru: "", en: "" },
     description: { uz: "", ru: "", en: "" },
     image: "",

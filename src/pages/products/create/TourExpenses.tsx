@@ -16,6 +16,13 @@ import { TourExpenses } from "@/types";
 interface TourExpensesFormProps {
   onSubmitData: (data: TourExpenses[]) => void;
 }
+type TourExpensesFieldPath =
+  | `expenses.${number}.${"title" | "description" | "text"}.${
+      | "uz"
+      | "ru"
+      | "en"}`
+  | `expenses.${number}.time`
+  | `expenses.${number}.image.${number}`;
 
 const TourExpensesForm = ({ onSubmitData }: TourExpensesFormProps) => {
   const { register, handleSubmit, control } = useForm<{
@@ -62,7 +69,9 @@ const TourExpensesForm = ({ onSubmitData }: TourExpensesFormProps) => {
                 <Input
                   id={`expenses.${index}.title.${lang}`}
                   placeholder={`Enter title in ${lang.toUpperCase()}`}
-                  {...register(`expenses.${index}.title.${lang}` as const)}
+                  {...register(
+                    `expenses.${index}.title.${lang}` as TourExpensesFieldPath
+                  )}
                 />
               </div>
             ))}
@@ -76,7 +85,7 @@ const TourExpensesForm = ({ onSubmitData }: TourExpensesFormProps) => {
                   id={`expenses.${index}.description.${lang}`}
                   placeholder={`Enter description in ${lang.toUpperCase()}`}
                   {...register(
-                    `expenses.${index}.description.${lang}` as const
+                    `expenses.${index}.description.${lang}` as TourExpensesFieldPath
                   )}
                 />
               </div>
@@ -92,7 +101,7 @@ const TourExpensesForm = ({ onSubmitData }: TourExpensesFormProps) => {
                   <Input
                     placeholder="Enter image URL"
                     {...register(
-                      `expenses.${index}.image.${imgIndex}` as const
+                      `expenses.${index}.image.${imgIndex}` as TourExpensesFieldPath
                     )}
                   />
                   <Button variant="outline" onClick={() => remove(index)}>
@@ -117,7 +126,9 @@ const TourExpensesForm = ({ onSubmitData }: TourExpensesFormProps) => {
                 <Input
                   id={`expenses.${index}.text.${lang}`}
                   placeholder={`Enter text in ${lang.toUpperCase()}`}
-                  {...register(`expenses.${index}.text.${lang}` as const)}
+                  {...register(
+                    `expenses.${index}.text.${lang}` as TourExpensesFieldPath
+                  )}
                 />
               </div>
             ))}

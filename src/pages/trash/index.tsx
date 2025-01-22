@@ -48,7 +48,7 @@ const Trash = () => {
                   >
                     <h2 className="text-lg font-semibold">{category.title}</h2>
                     <p className="text-base font-sans">
-                      {category.description}
+                      {category.descriptionen}
                     </p>
                     <div className="flex mt-2 space-x-2">
                       <Button

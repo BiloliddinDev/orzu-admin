@@ -32,6 +32,11 @@ export const items = [
     icon: FaCity,
   },
   {
+    title: "ToursCard",
+    url: "/toursCard",
+    icon: MdTour,
+  },
+  {
     title: "Trash",
     url: "/trash",
     icon: FaTrash,

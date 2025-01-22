@@ -5,7 +5,9 @@ import * as yup from "yup";
 export interface categorytype {
   id: any;
   title: string;
-  description: string;
+  descriptionuz: string;
+  descriptionru: string;
+  descriptionen: string;
   titleen: string;
   titleru: string;
   titleuz: string;
@@ -33,7 +35,18 @@ export interface authtype {
 }
 
 // tours type
-
+export interface tourtype {
+  id: any;
+  title: string;
+  price: string;
+  location: string;
+  about: string[];
+  season: string;
+  category: string;
+  description: string;
+  duration: string;
+  image: string;
+}
 // step 1
 
 export interface TourMainDetailsType {

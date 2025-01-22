@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import image from "/public/image/logo.png";
+// import image from "/image/logo.png";
 import { NavLink } from "react-router-dom";
 import { items } from "@/constants/navbar";
 import { FaTelegramPlane } from "react-icons/fa"; // Importing the Telegram icon
@@ -20,7 +20,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="flex flex-row items-center gap-1 my-8">
-            <img width={50} height={50} src={image} alt="" />
+            <img width={50} height={50} src={"./image/logo.png"} alt="" />
             <span className="text-base">Orzu Travel Admin</span>
           </SidebarGroupLabel>
           <SidebarGroupContent>

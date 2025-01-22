@@ -37,7 +37,7 @@ const Setting = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <img src={image} width={100} height={100} alt="" />
+      <img src={"/image/logo.png"} width={100} height={100} alt="" />
       <h1 className="mt-2 text-3xl font-bold text-orange-500">Orzu Admin</h1>
       <form className="space-y-4 w-96" onSubmit={handleSubmit(onSubmit)}>
         <Label htmlFor="email">Email</Label>

@@ -64,25 +64,27 @@ const Blogs = () => {
         {blogs.map((blog: Blogstype) => (
           <div
             key={blog.id}
-            className="w-[300px]  flex flex-col items-center border p-2"
+            className="w-[300px]  flex flex-col items-start border rounded-xl"
           >
-            <img src={blog.image} alt={blog.title.uz} />
-            <h2>{blog.title.uz}</h2>
-            <p>{blog.description.uz.slice(0, 50)}...</p>
-            <div className="flex mt-2 space-x-2">
-              <Button
-                onClick={() => handleDelete(blog.id)}
-                className="w-full bg-main-300"
-              >
-                <MdDelete />
-              </Button>
-              <Button
-                onClick={() => navigate(`/blog/edit/${blog.id}`)}
-                title="Edit"
-              >
-                Edit data
-              </Button>
-            </div>
+            <img src={blog.image} alt={blog.title.uz} className="w-full h-[200px] rounded-t-xl" />
+            <div className="p-3 w-full">
+              <h2 className="text-main-200 font-bold">{blog.title.en}</h2>
+              <p className="line-clamp-3">{blog.description.en}</p>
+              <div className="flex mt-2 justify-between gap-3 w-full">
+                <Button
+                  onClick={() => handleDelete(blog.id)}
+                  className="w-full bg-main-300"
+                >
+                  {/* <MdDelete /> */}
+                  Delete Blog
+                </Button>
+                <Button className="w-full"
+                  onClick={() => navigate(`/blog/edit/${blog.id}`)}
+                  title="Edit"
+                >
+                  Edit Blog
+                </Button>
+              </div></div>
           </div>
         ))}
       </div>
