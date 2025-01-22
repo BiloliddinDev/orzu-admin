@@ -3,7 +3,7 @@ import { DialogCloseButton } from "@/components/shared/producmodal";
 import React, { useEffect, useState } from "react";
 import { DB } from "@/api/firebase";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { tourtype } from "@/types";
+
 import { Button } from "@/components/ui/button";
 import { MdDelete } from "react-icons/md";
 import { Pen } from "lucide-react";
@@ -15,7 +15,7 @@ import { GiDuration } from "react-icons/gi";
 import { SiTourbox } from "react-icons/si";
 
 const Tours = () => {
-  const [tours, setTours] = useState<tourtype[]>([]);
+  const [tours, setTours] = useState();
 
   const handleDelete = async (id: string) => {
     try {
