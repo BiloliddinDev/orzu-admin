@@ -5,6 +5,7 @@ import { categorytype } from "@/types";
 import { Button } from "@/components/ui/button";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { DialogCloseButton } from "@/components/shared/producmodal";
 
 const Category = () => {
   const [categories, setCategories] = useState<categorytype[]>([]);
@@ -45,16 +46,27 @@ const Category = () => {
           {categories.map((category: categorytype) => (
             <div key={category.id} className="p-4 border shadow rounded-2xl">
               <h2 className="text-lg font-semibold">{category.titleen}</h2>
-              <p className="font-sans text-base line-clamp-5">{category.descriptionen}</p>
+              <p className="font-sans text-base line-clamp-5">
+                {category.descriptionen}
+              </p>
               <div className="flex justify-between mt-4 gap-3">
+                <DialogCloseButton title={"Delete category"}>
+                  <h2 className="text-red-400">
+                    Do you want to delete {category.titleru} category
+                  </h2>
+                  <Button
+                    onClick={() => handleDelete(category.id)}
+                    className="w-full bg-red-600 my-2 mt-8 "
+                  >
+                    {/* <MdDelete /> */}
+                    Delete category
+                  </Button>
+                </DialogCloseButton>
+
                 <Button
-                  onClick={() => handleDelete(category.id)}
-                  className=" bg-main-300"
+                  className=""
+                  onClick={() => navigate(`/categ/edit/${category.id}`)}
                 >
-                  {/* <MdDelete /> */}
-                  Delete Category
-                </Button>
-                <Button className="" onClick={() => navigate(`/categ/edit/${category.id}`)}>
                   Update Category
                 </Button>
               </div>

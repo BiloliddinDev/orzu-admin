@@ -50,7 +50,7 @@ export interface tourtype {
 // step 1
 
 export interface TourMainDetailsType {
-  id: string;
+  id?: string | any;
   title: {
     uz: string;
     ru: string;

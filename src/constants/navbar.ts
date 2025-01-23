@@ -4,8 +4,10 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { MdTour } from "react-icons/md";
 import { FaBoxArchive, FaCity } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
+import { SiShowtime } from "react-icons/si";
 
 export const items = [
+  { title: "Showcase", url: "/showcase", icon: SiShowtime },
   {
     title: "Blog",
     url: "/blog",

@@ -63,11 +63,11 @@ const CreateBlog = () => {
         createdAt: new Date(),
       };
 
-      const docRef = await addDoc(collection(DB, "blog"), tourData);
+      const docRef = await addDoc(collection(DB, "showcase"), tourData);
       console.log("Document written with ID: ", docRef.id, tourData);
 
-      toast.success("Blogs created sucsesfully");
-      navigate("/blog");
+      toast.success("Showcase created sucsesfully");
+      navigate("/showcase");
       setFormData({
         title: {
           uz: "",
@@ -172,14 +172,14 @@ const CreateBlog = () => {
         </div>
         <div className="flex items-center justify-end gap-2 w-[30%]">
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Creating..." : "Create blog"}
+            {loading ? "Creating..." : "Create showcase"}
           </Button>
           <Button
             type="submit"
             onClick={() => navigate(-1)}
             className="w-full bg-main-100"
           >
-            Back Blogs Page
+            Back Showcase Page
           </Button>
         </div>
       </form>

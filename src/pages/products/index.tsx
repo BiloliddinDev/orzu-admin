@@ -25,7 +25,6 @@ import { TourMainDetailsType } from "@/types";
 
 const Products = () => {
   const initialFormData: TourMainDetailsType = {
-    id: "",
     title: { uz: "", ru: "", en: "" },
     description: { uz: "", ru: "", en: "" },
     image: "",
@@ -75,7 +74,9 @@ const Products = () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await addDoc(collection(DB, "tourss"), formData);
+        const docRef = await addDoc(collection(DB, "tourss"), formData);
+        console.log("Document written with ID: ", docRef.id, formData);
+
         toast.success("Document successfully written!");
         setFormData(initialFormData);
         setIsDialogOpen(false); // Modalni yopish

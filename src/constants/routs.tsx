@@ -17,8 +17,12 @@ import { CreateTours } from "@/pages/products/create";
 // import { ToursDetel } from "@/pages/products/detel";
 import Setting from "@/pages/setting";
 import Trash from "@/pages/trash";
+import Showcase from "@/pages/showcase";
+import Createshowcase from "@/pages/showcase/create";
+import Editshowcase from "@/pages/showcase/edit";
 
 export const protectedRoutes = [
+  { path: "/showcase", element: <Showcase /> },
   { path: "/tours", element: <Products /> },
   { path: "/toursCard", element: <Tours /> },
   { path: "/toursCard/create", element: <CreateTourForm /> },
@@ -30,6 +34,8 @@ export const protectedRoutes = [
   { path: "/categ/edit/:id", element: <UpdateCategoryForm /> },
   { path: "/blog/create", element: <CreateBlog /> },
   { path: "/blog/edit/:id", element: <EditBlog /> },
+  { path: "/showcase/create", element: <Createshowcase /> },
+  { path: "/showcase/edit/:id", element: <Editshowcase /> },
   { path: "/blog", element: <Blogs /> },
   { path: "/trash", element: <Trash /> },
   { path: "/city", element: <City /> },

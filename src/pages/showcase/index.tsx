@@ -11,12 +11,13 @@ import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState<Blogstype[]>([]);
-  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState<string>("");
   useEffect(() => {
     const fetchTours = async () => {
-      const querySnapshot = await getDocs(collection(DB, "blog"));
+      const querySnapshot = await getDocs(collection(DB, "showcase"));
+
       const toursData: any = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -29,7 +30,7 @@ const Blogs = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const tourRef = doc(DB, "blog", id);
+      const tourRef = doc(DB, "showcase", id);
       await deleteDoc(tourRef);
       setBlogs(blogs.filter((blog) => blog.id !== id));
     } catch (error) {
@@ -46,13 +47,13 @@ const Blogs = () => {
   return (
     <div>
       <div className="flex items-center justify-between mx-3 border-b-2">
-        <Button
+        {/* <Button
           className="mb-3 "
-          onClick={() => navigate("/blog/create")}
+          onClick={() => navigate("/showcase/create")}
           title="Add Blogs"
         >
-          Create Blogs
-        </Button>
+          Create showcase
+        </Button> */}
         <div className="relative w-[350px] ">
           <Search className="absolute top-[5px] left-2" />
           <Input
@@ -67,34 +68,31 @@ const Blogs = () => {
             key={blog.id}
             className="w-[300px]  flex flex-col items-start border rounded-xl"
           >
-            <img
-              src={blog.image}
-              alt={blog.title.uz}
-              className="w-full h-[200px] rounded-t-xl"
-            />
-            <div className="p-3 w-full">
-              <h2 className="text-main-200 font-bold">{blog.title.en}</h2>
-              <p className="line-clamp-3">{blog.description.en}</p>
-              <div className="flex mt-2 justify-between gap-3 w-full">
-                <DialogCloseButton title={"Delete"}>
-                  <h2 className="text-red-400">
-                    Do you want to delete {blog.title.en} card
-                  </h2>
-                  <Button
-                    onClick={() => handleDelete(blog.id)}
-                    className="w-full bg-red-600 my-2 mt-8 "
-                  >
-                    {/* <MdDelete /> */}
-                    Delete Blog
-                  </Button>
-                </DialogCloseButton>
+            <h2 className="mt-2 text-xl mx-auto text-center">
+              {" "}
+              {blog.id == "PIhmGyYBSrRGA7oenB5N" ? "Banner" : "Showcase"}
+            </h2>
 
+            <video
+              autoPlay
+              muted
+              loop
+              poster={blog.image}
+              className="w-full h-[200px] rounded-t-xl"
+            >
+              <source type="video/mp4" src={blog.image} />
+            </video>
+            <div className="p-3 w-full">
+              <h2 className="text-main-200 font-bold">{blog.title.ru}</h2>
+              <p className="line-clamp-3">{blog.description.ru}</p>
+              <div className="flex mt-2 justify-between gap-3 w-full">
                 <Button
                   className="w-full"
-                  onClick={() => navigate(`/blog/edit/${blog.id}`)}
+                  onClick={() => navigate(`/showcase/edit/${blog.id}`)}
                   title="Edit"
                 >
-                  Edit Blog
+                  Edit{" "}
+                  {blog.id == "PIhmGyYBSrRGA7oenB5N" ? "Banner" : "Showcase"}
                 </Button>
               </div>
             </div>

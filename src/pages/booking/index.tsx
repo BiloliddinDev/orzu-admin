@@ -87,12 +87,18 @@ const Tours = () => {
                   ))}
                 </p> */}
                 <div className="flex mt-2 space-x-2">
-                  <Button
-                    onClick={() => handleDelete(tour.id)}
-                    className="w-full bg-main-300"
-                  >
-                    <MdDelete />
-                  </Button>
+                  <DialogCloseButton title={"Delete tour"}>
+                    <h2 className="text-red-400">
+                      Do you want to delete {tour.title} tour
+                    </h2>
+                    <Button
+                      onClick={() => handleDelete(tour.id)}
+                      className="w-full bg-red-600 my-2 mt-8 "
+                    >
+                      {/* <MdDelete /> */}
+                      Delete tour
+                    </Button>
+                  </DialogCloseButton>
                   <DialogCloseButton title="Edit">
                     <EditTourForm tour={tour} />
                   </DialogCloseButton>

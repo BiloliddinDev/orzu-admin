@@ -2,27 +2,61 @@ import { DB } from "@/api/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { addDoc, collection } from "firebase/firestore";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CreateBlog = () => {
+interface BlogData {
+  title: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
+  description: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
+  image: string;
+}
+
+const EditBlog = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    title: {
-      uz: "",
-      ru: "",
-      en: "",
-    },
-    description: {
-      uz: "",
-      ru: "",
-      en: "",
-    },
-    image: "",
-  });
+  const { id } = useParams<{ id: string }>();
+  const [formData, setFormData] = useState<BlogData | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      if (!id) {
+        toast.error("Invalid blog ID");
+        navigate("/showcase");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const docRef = doc(DB, "showcase", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data() as BlogData;
+          setFormData(data);
+        } else {
+          toast.error("Showcase not found!");
+          navigate("/blogs");
+        }
+      } catch (error) {
+        console.error("Error fetching Showcase:", error);
+        toast.error("Failed to load the blog data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
+  }, [id, navigate]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,67 +66,59 @@ const CreateBlog = () => {
       ? name.split("[").map((part) => part.replace("]", ""))
       : [name];
 
-    setFormData((prevFormData: any) => ({
-      ...prevFormData,
-      [field]: lang
-        ? {
-            ...prevFormData[field],
-            [lang]: value,
-          }
-        : value,
-    }));
+    setFormData((prevFormData) => {
+      if (!prevFormData) return prevFormData;
+
+      return {
+        ...prevFormData,
+        [field]: lang
+          ? {
+              ...(prevFormData[field as keyof BlogData] as Record<
+                string,
+                string
+              >),
+              [lang]: value,
+            }
+          : value,
+      };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!id || !formData) {
+      toast.error("Invalid form data");
+      return;
+    }
+
     setLoading(true);
-
     try {
-      const tourData = {
-        title: {
-          uz: formData.title.uz,
-          ru: formData.title.ru,
-          en: formData.title.en,
-        },
-        description: {
-          uz: formData.description.uz,
-          ru: formData.description.ru,
-          en: formData.description.en,
-        },
+      const docRef = doc(DB, "showcase", id);
+      await updateDoc(docRef, {
+        title: formData.title,
+        description: formData.description,
         image: formData.image,
-        createdAt: new Date(),
-      };
-
-      const docRef = await addDoc(collection(DB, "blog"), tourData);
-      console.log("Document written with ID: ", docRef.id, tourData);
-
-      toast.success("Blogs created sucsesfully");
-      navigate("/blog");
-      setFormData({
-        title: {
-          uz: "",
-          ru: "",
-          en: "",
-        },
-        description: {
-          uz: "",
-          ru: "",
-          en: "",
-        },
-        image: "",
+        updatedAt: new Date(),
       });
+
+      toast.success("showcase updated successfully!");
+      navigate("/showcase");
     } catch (error) {
-      console.error("Error creating tour:", error);
-      toast.error("Failed to create the tour. Please try again.");
+      console.error("Error updating blog:", error);
+      toast.error("Failed to update the blog. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  if (!formData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container p-4 mx-auto">
-      <h1 className="mb-6 text-2xl font-bold">
-        Create New Blogs for Orzu travel
-      </h1>
+      <h1 className="mb-6 text-2xl font-bold">Edit Showcase for Orzu Travel</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block mb-2 text-sm font-medium">Title Uz</label>
@@ -172,14 +198,14 @@ const CreateBlog = () => {
         </div>
         <div className="flex items-center justify-end gap-2 w-[30%]">
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Creating..." : "Create blog"}
+            {loading ? "Updating..." : "Update showcase"}
           </Button>
           <Button
-            type="submit"
+            type="button"
             onClick={() => navigate(-1)}
             className="w-full bg-main-100"
           >
-            Back Blogs Page
+            Back to Showcase Page
           </Button>
         </div>
       </form>
@@ -187,4 +213,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default EditBlog;
