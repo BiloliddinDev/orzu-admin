@@ -12,14 +12,15 @@ import {
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Button } from "@headlessui/react";
+import { DialogCloseButton } from "@/components/shared/producmodal";
 
-const TourMainDetails = () => {
+const TourMainDetails = ({ modal }: any) => {
   const [tours, setTours] = useState<TourMainDetailsType[]>();
   const handleDelete = async (id: string) => {
     try {
       const tourRef = doc(DB, "tourss", id);
       await deleteDoc(tourRef);
-      setTours(tours?.filter((blog) => blog.id == ""));
+      setTours(tours?.filter((blog) => blog.id !== id));
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
@@ -47,52 +48,78 @@ const TourMainDetails = () => {
     };
 
     fetchTours();
-  }, []);
+  }, [modal]);
   console.log(tours);
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-4 mt-4 sm:grid-cols-2 lg:grid-cols-4">
-      <button
+    <div className="flex w-full items-center justify-start  md:flex-row  gap-4  flex-wrap ">
+      {/* <button
         onClick={handleDeleteAll}
         className="mx-auto my-10 fixed -top-7 left-[30%] z-50 bg-red-700 p-6"
       >
         delete all
-      </button>
+      </button> */}
       {tours?.map((element) => (
-        <Link
-          to={`create/${element.id}`}
+        <div
           key={element.id}
-          className="flex flex-col items-center p-2 transition-shadow duration-300 border shadow-md hover:shadow-lg"
+          className=" w-full lg:w-2/5  p-2 transition-shadow duration-300 border shadow-md hover:shadow-lg"
         >
           <img
             src={element.image}
             alt={element.title.uz}
-            className="object-cover w-full h-48 mb-4 rounded-md cursor-pointer"
+            className="object-cover w-full h-60 mb-4 rounded-md cursor-pointer"
           />
-          <CardHeader>
-            <CardTitle className="text-lg font-bold text-center">
-              {element?.title.uz}
+          <CardHeader className="p-0 m-0">
+            <CardTitle className="text-2xl    my-2 p-0 font-bold text-center">
+              {element.title.uz}
+            </CardTitle>
+            <CardTitle className="text-xl max-w-[80%] ml-5   my-2 p-0  text-center">
+              <div className="flex mt-3 border-b border-black pb-3 w-full justify-between">
+                <p>Price</p>
+                <p>{element?.price}</p>
+              </div>
+              <div className="flex mt-3 border-b border-black pb-3 w-full justify-between">
+                <p>Duration</p>
+                <p>{element?.duration.ru}</p>
+              </div>
+              <div className="flex mt-3 items-center border-b border-black pb-3 w-full justify-between">
+                <p>Season:</p>
+
+                <div>
+                  {element.season.map((elem: string, ID: number) => (
+                    <div key={ID}>{elem}</div>
+                  ))}
+                </div>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="text-gray-600">{element.duration.uz}</p>
-            <p className="text-lg font-semibold text-gray-800">
-              ${element.price}
-            </p>
-            <p>
-              {element.season.map((elem: string) => (
-                <div>{elem}</div>
-              ))}
-            </p>
-            <p>{element.description.uz}</p>
-            <Button
-              className="my-5 bg-red-600 p-5"
-              onClick={() => handleDelete(element.id)}
-            >
-              Delete
-            </Button>
+            <div className="flex mt-4 items-center justify-between w-full">
+              <Link to={`create/${element.id}`}>
+                <Button className="bg-main-200 text-white rounded-md p-2">
+                  Add Details
+                </Button>
+              </Link>
+              <Link to={`edit/${element.id}`}>
+                <Button className="bg-green-400 text-white rounded-md p-2">
+                  Edit Tour
+                </Button>
+              </Link>
+
+              <DialogCloseButton title={"Delete tour"}>
+                <h2 className="text-red-400">
+                  Do you want to delete {element.title.ru} tour
+                </h2>
+                <Button
+                  className="my-3  bg-red-600 p-3 w-full"
+                  onClick={() => handleDelete(element.id)}
+                >
+                  Delete
+                </Button>
+              </DialogCloseButton>
+            </div>
           </CardContent>
-        </Link>
+        </div>
       ))}
     </div>
   );

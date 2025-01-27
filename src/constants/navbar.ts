@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import { SiShowtime } from "react-icons/si";
 
 export const items = [
-  { title: "Showcase", url: "/showcase", icon: SiShowtime },
+  { title: "MainPage", url: "/showcase", icon: SiShowtime },
   {
     title: "Blog",
     url: "/blog",

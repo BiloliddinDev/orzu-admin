@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import {
   Card,
   CardContent,
@@ -18,10 +19,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Select from "react-select";
 import { DB } from "@/api/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import TourMainDetails from "./create/TourMainDetails";
-import { TourMainDetailsType } from "@/types";
+import { categorytype, TourMainDetailsType } from "@/types";
 
 const Products = () => {
   const initialFormData: TourMainDetailsType = {
@@ -31,12 +32,28 @@ const Products = () => {
     duration: { uz: "", ru: "", en: "" },
     price: 0,
     season: [],
+    category: "adventure",
   };
+  const [categories, setCategories] = useState<categorytype[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const querySnapshot = await getDocs(collection(DB, "categories"));
+      const categorydata: any = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCategories(categorydata);
+    };
+
+    fetchCategory();
+  }, [isDialogOpen]);
+  console.log(categories);
 
   const [formData, setFormData] =
     useState<TourMainDetailsType>(initialFormData);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleChange = (field: keyof TourMainDetailsType, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -65,6 +82,8 @@ const Products = () => {
     if (!formData.duration.en)
       newErrors["duration.en"] = "Duration in English is required.";
     if (formData.price <= 0) newErrors.price = "Price must be greater than 0.";
+    if (formData.category.length === 0)
+      newErrors.price = "You must select a category.";
     if (formData.season.length === 0)
       newErrors.season = "At least one season must be selected.";
     return newErrors;
@@ -189,6 +208,7 @@ const Products = () => {
                     <span className="text-sm text-red-500">{errors.price}</span>
                   )}
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="season">Season</Label>
                   <Select
@@ -212,11 +232,28 @@ const Products = () => {
                     </span>
                   )}
                 </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium">
+                    Category
+                  </label>
+                  <select
+                    className="w-full p-1 shadow text-lg border "
+                    name="category"
+                    onChange={(e) => handleChange("category", e.target.value)}
+                  >
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.title}>
+                        {category.titleen}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </CardContent>
             <CardFooter className="gap-2">
               <Button size={"lg"} onClick={handleSubmit}>
-                Next
+                Create
               </Button>
               <DialogClose asChild>
                 <Button size={"lg"} type="button" variant="secondary">
@@ -229,7 +266,7 @@ const Products = () => {
       </Dialog>
       <div className="flex items-center justify-between pb-2 mx-3 border-b-2"></div>
       <div>
-        <TourMainDetails />
+        <TourMainDetails modal={isDialogOpen} />
       </div>
     </div>
   );

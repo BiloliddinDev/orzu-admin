@@ -11,6 +11,7 @@ export interface categorytype {
   titleen: string;
   titleru: string;
   titleuz: string;
+  image: string;
 }
 
 export interface Blogstype {
@@ -69,6 +70,7 @@ export interface TourMainDetailsType {
   };
   price: number;
   season: "Winter" | "Spring" | "Summer" | "Autumn" | any;
+  category: string;
 }
 
 // Step 2

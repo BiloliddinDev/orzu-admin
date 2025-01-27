@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { DialogCloseButton } from "@/components/shared/producmodal";
+import { log } from "console";
 
 const Category = () => {
   const [categories, setCategories] = useState<categorytype[]>([]);
@@ -32,6 +33,7 @@ const Category = () => {
 
     fetchCategory();
   }, []);
+  console.log(categories);
 
   return (
     <div>
@@ -44,8 +46,11 @@ const Category = () => {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           {categories.map((category: categorytype) => (
-            <div key={category.id} className="p-4 border shadow rounded-2xl">
-              <h2 className="text-lg font-semibold">{category.titleen}</h2>
+            <div key={category.id} className="p-4 border   shadow rounded-2xl">
+              <img className="w-full h-70" src={category.image} alt="" />
+              <h2 className="text-2xl my-2 font-semibold">
+                {category.titleen}
+              </h2>
               <p className="font-sans text-base line-clamp-5">
                 {category.descriptionen}
               </p>

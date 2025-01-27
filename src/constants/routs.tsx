@@ -20,6 +20,7 @@ import Trash from "@/pages/trash";
 import Showcase from "@/pages/showcase";
 import Createshowcase from "@/pages/showcase/create";
 import Editshowcase from "@/pages/showcase/edit";
+import EditTourMainData from "@/pages/products/edit/editMainTour";
 
 export const protectedRoutes = [
   { path: "/showcase", element: <Showcase /> },
@@ -28,6 +29,7 @@ export const protectedRoutes = [
   { path: "/toursCard/create", element: <CreateTourForm /> },
   // { path: "/tours/create", element: <CreateTourForm /> },
   { path: "/tours/create/:id", element: <CreateTours /> },
+  { path: "/tours/edit/:id", element: <EditTourMainData /> },
   { path: "/categ", element: <Category /> },
   { path: "/categ/create", element: <CreateCategoryForm /> },
   // { path: "/tours/detel/:id", element: <ToursDetel /> },
