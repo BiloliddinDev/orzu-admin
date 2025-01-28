@@ -9,10 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 type FormValues = {
   title: { uz: string; ru: string; en: string };
-  description: { uz: string; ru: string; en: string };
+  about: { uz: string; ru: string; en: string };
   countryName: { uz: string; ru: string; en: string };
   language: { uz: string; ru: string; en: string };
   currency: { uz: string; ru: string; en: string };
@@ -35,8 +36,8 @@ export function TourAboutDetailsForm({
 
   const onSubmit = () => {
     const data = getValues();
-    console.log("Collected Data:", data);
-    onSubmitData(data); // Send data to the main form
+
+    onSubmitData(data);
   };
 
   const renderInputFields = (fieldKey: keyof FormValues, label: string) =>
@@ -46,6 +47,27 @@ export function TourAboutDetailsForm({
           {label} ({lang.toUpperCase()})
         </Label>
         <Input
+          id={`${fieldKey}-${lang}`}
+          placeholder={`Enter ${label.toLowerCase()} in ${lang.toUpperCase()}`}
+          {...register(`${fieldKey}.${lang}` as any, {
+            required: "This field is required",
+          })}
+        />
+        {(errors as any)[fieldKey]?.[lang] && (
+          <span className="text-sm text-red-500">
+            {(errors as any)[fieldKey]?.[lang]?.message}
+          </span>
+        )}
+      </div>
+    ));
+  const renderInputFields2 = (fieldKey: keyof FormValues, label: string) =>
+    ["uz", "ru", "en"].map((lang) => (
+      <div key={`${fieldKey}-${lang}`} className="space-y-2">
+        <Label htmlFor={`${fieldKey}-${lang}`}>
+          {label} ({lang.toUpperCase()})
+        </Label>
+        <Textarea
+          rows={5}
           id={`${fieldKey}-${lang}`}
           placeholder={`Enter ${label.toLowerCase()} in ${lang.toUpperCase()}`}
           {...register(`${fieldKey}.${lang}` as any, {
@@ -69,8 +91,7 @@ export function TourAboutDetailsForm({
         </CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-3 gap-4">
-        {renderInputFields("title", "Title")}
-        {renderInputFields("description", "Description")}
+        {renderInputFields2("about", "About")}
         {renderInputFields("countryName", "Country Name")}
         {renderInputFields("language", "Language")}
         {renderInputFields("currency", "Currency")}

@@ -1,173 +1,175 @@
 import React from "react";
-import { useForm, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
-import { TourExpenses } from "@/types";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useFormContext, useFieldArray } from "react-hook-form";
 
-interface TourExpensesFormProps {
-  onSubmitData: (data: TourExpenses[]) => void;
-}
-type TourExpensesFieldPath =
-  | `expenses.${number}.${"title" | "description" | "text"}.${
-      | "uz"
-      | "ru"
-      | "en"}`
-  | `expenses.${number}.time`
-  | `expenses.${number}.image.${number}`;
-
-const TourExpensesForm = ({ onSubmitData }: TourExpensesFormProps) => {
-  const { register, handleSubmit, control } = useForm<{
-    expenses: TourExpenses[];
-  }>({
-    defaultValues: {
-      expenses: [
-        {
-          title: { uz: "", ru: "", en: "" },
-          description: { uz: "", ru: "", en: "" },
-          image: [""],
-          text: { uz: "", ru: "", en: "" },
-          time: "",
-        },
-      ],
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
+export const DaysProgramInputs = ({
+  onNextStep,
+  onBackStep,
+  name,
+}: {
+  onNextStep: () => void;
+  onBackStep: () => void;
+  name: string;
+}) => {
+  const {
+    register,
+    handleSubmit,
     control,
-    name: "expenses",
+    formState: { errors },
+  } = useFormContext<{
+    [key: string]: Array<{
+      day: { uz: string; ru: string; en: string };
+      dayText: { uz: string; ru: string; en: string };
+      dayTitle: { uz: string; ru: string; en: string };
+      images: string[];
+    }>;
+  }>();
+
+  const { fields, append, remove, update } = useFieldArray({
+    control,
+    name, // Use the provided `name` prop
+    keyName: "id",
   });
 
-  const onSubmit = (data: { expenses: TourExpenses[] }) => {
-    onSubmitData(data.expenses);
+  React.useEffect(() => {
+    if (fields.length === 0) {
+      append({
+        day: { uz: "", ru: "", en: "" },
+        dayText: { uz: "", ru: "", en: "" },
+        dayTitle: { uz: "", ru: "", en: "" },
+        images: [""],
+      });
+    }
+  }, [fields, append]);
+
+  const addDayProgram = () => {
+    append({
+      day: { uz: "", ru: "", en: "" },
+      dayText: { uz: "", ru: "", en: "" },
+      dayTitle: { uz: "", ru: "", en: "" },
+      images: [""],
+    });
+  };
+
+  const addImage = (index: number) => {
+    const currentImages = fields[index]?.images || [];
+    update(index, {
+      ...fields[index],
+      images: [...currentImages, ""],
+    });
+  };
+
+  const removeImage = (fieldIndex: number, imageIndex: number) => {
+    const currentImages = fields[fieldIndex]?.images || [];
+    const updatedImages = currentImages.filter((_, i) => i !== imageIndex);
+    update(fieldIndex, {
+      ...fields[fieldIndex],
+      images: updatedImages,
+    });
+  };
+
+  const onSubmit = (data: Record<string, any>) => {
+    console.log("Form Data:", data);
+    onNextStep();
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Create Tour Expenses</CardTitle>
+        <h2>Add Day Program</h2>
         <CardDescription>
-          Fill in the details for the tour expenses.
+          Fill in the about details for the tour.
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <CardContent className="">
         {fields.map((field, index) => (
-          <CardContent key={field.id} className="space-y-4">
-            {["uz", "ru", "en"].map((lang) => (
-              <div key={`title-${index}-${lang}`} className="space-y-2">
-                <Label htmlFor={`expenses.${index}.title.${lang}`}>
-                  Title ({lang.toUpperCase()})
-                </Label>
-                <Input
-                  id={`expenses.${index}.title.${lang}`}
-                  placeholder={`Enter title in ${lang.toUpperCase()}`}
-                  {...register(
-                    `expenses.${index}.title.${lang}` as TourExpensesFieldPath
-                  )}
-                />
+          <div key={field.id} className="space-y-4  p-4 rounded-md">
+            {(["day", "dayTitle", "dayText"] as const).map((key) => (
+              <div key={`${name}-${index}-${key}`} className="space-y-2">
+                {(["uz", "ru", "en"] as const).map((lang) => (
+                  <div key={`${name}-${index}-${key}-${lang}`}>
+                    <Label htmlFor={`${name}-${index}-${key}-${lang}`}>
+                      {key} ({lang.toUpperCase()})
+                    </Label>
+                    <Input
+                      className="my-2"
+                      id={`${name}-${index}-${key}-${lang}`}
+                      placeholder={`Enter ${key} in ${lang.toUpperCase()}`}
+                      {...register(`${name}.${index}.${key}.${lang}`, {
+                        required: `${key} in ${lang.toUpperCase()} is required.`,
+                      })}
+                    />
+                  </div>
+                ))}
               </div>
             ))}
 
-            {["uz", "ru", "en"].map((lang) => (
-              <div key={`description-${index}-${lang}`} className="space-y-2">
-                <Label htmlFor={`expenses.${index}.description.${lang}`}>
-                  Description ({lang.toUpperCase()})
-                </Label>
-                <Input
-                  id={`expenses.${index}.description.${lang}`}
-                  placeholder={`Enter description in ${lang.toUpperCase()}`}
-                  {...register(
-                    `expenses.${index}.description.${lang}` as TourExpensesFieldPath
-                  )}
-                />
-              </div>
-            ))}
-
-            <div className="space-y-2">
+            {/* Image Uploads */}
+            <div>
               <Label>Images</Label>
-              {field.image.map((_, imgIndex) => (
+              {field.images.map((_, imageIndex) => (
                 <div
-                  key={`image-${index}-${imgIndex}`}
-                  className="flex space-x-2"
+                  key={`${name}-${index}-images-${imageIndex}`}
+                  className="flex items-center gap-2"
                 >
                   <Input
+                    className="my-3"
                     placeholder="Enter image URL"
-                    {...register(
-                      `expenses.${index}.image.${imgIndex}` as TourExpensesFieldPath
-                    )}
+                    {...register(`${name}.${index}.images.${imageIndex}`, {
+                      required: "Image URL is required.",
+                    })}
                   />
-                  <Button variant="outline" onClick={() => remove(index)}>
-                    Remove Image
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => removeImage(index, imageIndex)}
+                  >
+                    Remove
                   </Button>
                 </div>
               ))}
               <Button
-                onClick={() =>
-                  append({ ...field, image: [...field.image, ""] })
-                }
+                className="mt-5"
+                type="button"
+                onClick={() => addImage(index)}
               >
-                Add Image URL
+                Add Image
               </Button>
             </div>
 
-            {["uz", "ru", "en"].map((lang) => (
-              <div key={`text-${index}-${lang}`} className="space-y-2">
-                <Label htmlFor={`expenses.${index}.text.${lang}`}>
-                  Text ({lang.toUpperCase()})
-                </Label>
-                <Input
-                  id={`expenses.${index}.text.${lang}`}
-                  placeholder={`Enter text in ${lang.toUpperCase()}`}
-                  {...register(
-                    `expenses.${index}.text.${lang}` as TourExpensesFieldPath
-                  )}
-                />
-              </div>
-            ))}
-
-            <div className="space-y-2">
-              <Label htmlFor={`expenses.${index}.time`}>Time</Label>
-              <Input
-                id={`expenses.${index}.time`}
-                placeholder="Enter time"
-                {...register(`expenses.${index}.time` as const)}
-              />
-            </div>
-
-            <Button variant="destructive" onClick={() => remove(index)}>
-              Remove Expense
+            <Button
+              variant="outline"
+              onClick={() => remove(index)}
+              type="button"
+            >
+              Remove Day Program
             </Button>
-          </CardContent>
+            <Button
+              className="ml-[4%]"
+              type="button"
+              variant="outline"
+              onClick={addDayProgram}
+            >
+              Add Day Program
+            </Button>
+          </div>
         ))}
-        <CardFooter className="flex flex-col gap-2">
-          <Button
-            onClick={() =>
-              append({
-                title: { uz: "", ru: "", en: "" },
-                description: { uz: "", ru: "", en: "" },
-                image: [""],
-                text: { uz: "", ru: "", en: "" },
-                time: "",
-              })
-            }
-          >
-            Add New Input Set
+
+        <div className="flex justify-end gap-2">
+          <Button type="button" variant="outline" onClick={onBackStep}>
+            Back
           </Button>
-          <Button size="lg" type="submit">
-            Submit
-          </Button>
-        </CardFooter>
-      </form>
+          <Button onClick={handleSubmit(onSubmit)}>Next</Button>
+        </div>
+      </CardContent>
     </Card>
   );
 };
-
-export default TourExpensesForm;

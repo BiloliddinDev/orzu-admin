@@ -12,34 +12,27 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { TourAboutDetailsForm } from "./TourAboutDetails";
-import TourExpensesForm from "./TourExpenses";
-import TourMainDetails from "./TourMainDetails";
+import { DaysProgramInputs } from "./TourExpenses";
+
 import TourPlanForm from "./TourPlan";
+
 import { TourProgramDescriptionForm } from "./TourProgramDescription";
 
 export function CreateTours() {
   const methods = useForm();
   const [isAboutDialogOpen, setIsAboutDialogOpen] = useState(false);
   const [isExpensesDialogOpen, setIsExpensesDialogOpen] = useState(false);
-  const [tourDetails, setTourDetails] = useState({});
-  const [tourExpenses, setTourExpenses] = useState([]);
+  // const [tourDetails, setTourDetails] = useState({});
 
   const onSubmit = (data: any) => {
     const combinedData = {
       ...data,
-      tourDetails,
-      tourExpenses,
     };
     console.log("Combined Form Data:", combinedData);
   };
 
   React.useEffect(() => {
-    methods.reset({
-      ism: "John",
-      familiya: "Doe",
-      email: "john@example.com",
-      telefon: "+998901234567",
-    });
+    methods.reset({});
   }, [methods.reset]);
 
   // const handleTourDetailsSubmit = (data: any) => {
@@ -54,15 +47,24 @@ export function CreateTours() {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <TourAboutDetailsForm onSubmitData={() => {}} />
-        <TourExpensesForm onSubmitData={() => {}} />
-        {/* <TourMainDetails /> */}
+      <form
+        className="flex flex-col gap-10"
+        onSubmit={methods.handleSubmit(onSubmit)}
+      >
+        {/* <TourMainData /> */}
+
         <TourPlanForm onNextStep={() => {}} onBackStep={() => {}} />
         <TourProgramDescriptionForm
           onNextStep={() => {}}
           onBackStep={() => {}}
         />
+        <DaysProgramInputs
+          name="Days"
+          onNextStep={() => {}}
+          onBackStep={() => {}}
+        />
+        <TourAboutDetailsForm onSubmitData={() => {}} />
+        {/* <Button onClick={onSubmit}>Yuborish</Button> */}
       </form>
     </FormProvider>
   );

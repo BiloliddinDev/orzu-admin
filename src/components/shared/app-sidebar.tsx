@@ -20,7 +20,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="flex flex-row items-center gap-1 my-8">
-            <img width={50} height={50} src={"image/logo.png"} alt="" />
+            <img width={50} height={50} src={"/image/logo.png"} alt="" />
             <span className="text-base">Orzu Travel Admin</span>
           </SidebarGroupLabel>
           <SidebarGroupContent>

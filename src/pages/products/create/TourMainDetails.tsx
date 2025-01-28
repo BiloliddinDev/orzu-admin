@@ -62,7 +62,7 @@ const TourMainDetails = ({ modal }: any) => {
       {tours?.map((element) => (
         <div
           key={element.id}
-          className=" w-full lg:w-2/5  p-2 transition-shadow duration-300 border shadow-md hover:shadow-lg"
+          className=" w-full xl:w-2/5 2xl:w-[30%]  p-2 transition-shadow duration-300 border shadow-md hover:shadow-lg"
         >
           <img
             src={element.image}
