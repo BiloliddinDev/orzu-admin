@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useEffect } from "react";
 
 type FormValues = {
   title: { uz: string; ru: string; en: string };
@@ -22,16 +23,19 @@ type FormValues = {
 
 interface TourAboutDetailsFormProps {
   onSubmitData: (data: FormValues) => void;
+  formData: any;
 }
 
 export function TourAboutDetailsForm({
   onSubmitData,
+  formData,
 }: TourAboutDetailsFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
+    setValue,
   } = useFormContext<FormValues>();
 
   const onSubmit = () => {
@@ -39,6 +43,19 @@ export function TourAboutDetailsForm({
 
     onSubmitData(data);
   };
+  useEffect(() => {
+    if (formData) {
+      Object.keys(formData).forEach((key) => {
+        const fieldKey = key as keyof FormValues;
+        if (formData[fieldKey]) {
+          Object.keys(formData[fieldKey]!).forEach((lang) => {
+            const fieldPath = `${fieldKey}.${lang}` as keyof FormValues;
+            setValue(`${fieldPath}`, formData[fieldKey]?.[lang] || "");
+          });
+        }
+      });
+    }
+  }, [formData, setValue]);
 
   const renderInputFields = (fieldKey: keyof FormValues, label: string) =>
     ["uz", "ru", "en"].map((lang) => (
@@ -98,6 +115,7 @@ export function TourAboutDetailsForm({
         <div className="space-y-2">
           <Label htmlFor="map">Map URL</Label>
           <Input
+            defaultValue={formData?.map}
             id="map"
             placeholder="Enter map URL"
             {...register("map", { required: "This field is required" })}

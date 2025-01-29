@@ -10,14 +10,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormContext, useFieldArray } from "react-hook-form";
 
-export const DaysProgramInputs = ({
+export const DetailedObzor = ({
   onNextStep,
   onBackStep,
   name,
+  formData,
 }: {
   onNextStep: () => void;
   onBackStep: () => void;
   name: string;
+  formData: any;
 }) => {
   const {
     register,
@@ -27,9 +29,11 @@ export const DaysProgramInputs = ({
   } = useFormContext<{
     [key: string]: Array<{
       day: { uz: string; ru: string; en: string };
-      dayText: { uz: string; ru: string; en: string };
       dayTitle: { uz: string; ru: string; en: string };
-      images: string[];
+      hours: Array<{
+        time: string;
+        hourTitle: { uz: string; ru: string; en: string };
+      }>;
     }>;
   }>();
 
@@ -39,40 +43,56 @@ export const DaysProgramInputs = ({
     keyName: "id",
   });
 
+  // React.useEffect(() => {
+  //   if (fields.length === 0) {
+  //     append({
+  //       day: { uz: "", ru: "", en: "" },
+  //       dayTitle: { uz: "", ru: "", en: "" },
+  //       hours: [{ time: "", hourTitle: { uz: "", ru: "", en: "" } }],
+  //     });
+  //   }
+  // }, [fields, append]);
   React.useEffect(() => {
-    if (fields.length === 0) {
-      append({
-        day: { uz: "", ru: "", en: "" },
-        dayText: { uz: "", ru: "", en: "" },
-        dayTitle: { uz: "", ru: "", en: "" },
-        images: [""],
-      });
+    if (formData?.DaysWithHours?.length > 0) {
+      formData.DaysWithHours.forEach(
+        (item: {
+          day: { uz: string; ru: string; en: string };
+          dayTitle: { uz: string; ru: string; en: string };
+          hours: Array<{
+            time: string;
+            hourTitle: { uz: string; ru: string; en: string };
+          }>;
+        }) => {
+          append(item);
+        }
+      );
     }
-  }, [fields, append]);
-
+  }, [formData]);
   const addDayProgram = () => {
     append({
       day: { uz: "", ru: "", en: "" },
-      dayText: { uz: "", ru: "", en: "" },
       dayTitle: { uz: "", ru: "", en: "" },
-      images: [""],
+      hours: [{ time: "", hourTitle: { uz: "", ru: "", en: "" } }],
     });
   };
 
   const addImage = (index: number) => {
-    const currentImages = fields[index]?.images || [];
+    const currentImages = fields[index]?.hours || [];
     update(index, {
       ...fields[index],
-      images: [...currentImages, ""],
+      hours: [
+        ...currentImages,
+        { time: "", hourTitle: { uz: "", ru: "", en: "" } },
+      ],
     });
   };
 
   const removeImage = (fieldIndex: number, imageIndex: number) => {
-    const currentImages = fields[fieldIndex]?.images || [];
+    const currentImages = fields[fieldIndex]?.hours || [];
     const updatedImages = currentImages.filter((_, i) => i !== imageIndex);
     update(fieldIndex, {
       ...fields[fieldIndex],
-      images: updatedImages,
+      hours: updatedImages,
     });
   };
 
@@ -84,7 +104,7 @@ export const DaysProgramInputs = ({
   return (
     <Card>
       <CardHeader>
-        <h2>Add Day Program</h2>
+        <h2>Add Day detailed Program</h2>
         <CardDescription>
           Fill in the about details for the tour.
         </CardDescription>
@@ -92,7 +112,7 @@ export const DaysProgramInputs = ({
       <CardContent className="">
         {fields.map((field, index) => (
           <div key={field.id} className="space-y-4  p-4 rounded-md">
-            {(["day", "dayTitle", "dayText"] as const).map((key) => (
+            {(["day", "dayTitle"] as const).map((key) => (
               <div key={`${name}-${index}-${key}`} className="space-y-2">
                 {(["uz", "ru", "en"] as const).map((lang) => (
                   <div key={`${name}-${index}-${key}-${lang}`}>
@@ -100,6 +120,7 @@ export const DaysProgramInputs = ({
                       {key} ({lang.toUpperCase()})
                     </Label>
                     <Input
+                      defaultValue={field[key][lang]}
                       className="my-2"
                       id={`${name}-${index}-${key}-${lang}`}
                       placeholder={`Enter ${key} in ${lang.toUpperCase()}`}
@@ -114,19 +135,58 @@ export const DaysProgramInputs = ({
 
             {/* Image Uploads */}
             <div>
-              <Label>Images</Label>
-              {field.images.map((_, imageIndex) => (
+              <Label>Day Hourly </Label>
+              {field.hours.map((_, imageIndex) => (
                 <div
-                  key={`${name}-${index}-images-${imageIndex}`}
-                  className="flex items-center gap-2"
+                  key={`${name}.${index}-hours-${imageIndex}`}
+                  className="flex items-center justify-start gap-6"
                 >
-                  <Input
-                    className="my-3"
-                    placeholder="Enter image URL"
-                    {...register(`${name}.${index}.images.${imageIndex}`, {
-                      required: "Image URL is required.",
-                    })}
-                  />
+                  <div>
+                    <Label
+                      htmlFor={`${name}.${index}.hours.${imageIndex}.time`}
+                    >
+                      Time
+                    </Label>
+                    <Input
+                      className=" w-full"
+                      placeholder="Enter time"
+                      {...register(
+                        `${name}.${index}.hours.${imageIndex}.time`,
+                        {
+                          required: "Time is required.",
+                        }
+                      )}
+                    />
+                  </div>
+                  <div className="w-[50%] mt-10">
+                    {(["hourTitle"] as const).map((key) => (
+                      <div
+                        key={`${name}-${index}-${key}`}
+                        className="space-y-2"
+                      >
+                        {(["uz", "ru", "en"] as const).map((lang) => (
+                          <div key={`${name}-${index}-${key}-${lang}`}>
+                            <Label
+                              htmlFor={`${name}.${index}.hours.${imageIndex}.${key}.${lang}`}
+                            >
+                              {key} ({lang.toUpperCase()})
+                            </Label>
+                            <Input
+                              className="my-2"
+                              id={`${name}-${index}.hours.${imageIndex}.${key}.${lang}`}
+                              placeholder={`Enter ${key} in ${lang.toUpperCase()}`}
+                              {...register(
+                                `${name}.${index}.hours.${imageIndex}.${key}.${lang}`,
+                                {
+                                  required: `${key} in ${lang.toUpperCase()} is required.`,
+                                }
+                              )}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                   <Button
                     type="button"
                     variant="outline"
@@ -141,7 +201,7 @@ export const DaysProgramInputs = ({
                 type="button"
                 onClick={() => addImage(index)}
               >
-                Add Image
+                Add Hour
               </Button>
             </div>
 
@@ -164,10 +224,10 @@ export const DaysProgramInputs = ({
         ))}
 
         <div className="flex justify-end gap-2">
-          {/* <Button type="button" variant="outline" onClick={onBackStep}>
+          <Button type="button" variant="outline" onClick={onBackStep}>
             Back
           </Button>
-          <Button onClick={handleSubmit(onSubmit)}>Next</Button> */}
+          <Button>Update</Button>
         </div>
       </CardContent>
     </Card>

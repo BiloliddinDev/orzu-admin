@@ -14,10 +14,12 @@ export const DaysProgramInputs = ({
   onNextStep,
   onBackStep,
   name,
+  formData,
 }: {
   onNextStep: () => void;
   onBackStep: () => void;
   name: string;
+  formData: any;
 }) => {
   const {
     register,
@@ -40,15 +42,19 @@ export const DaysProgramInputs = ({
   });
 
   React.useEffect(() => {
-    if (fields.length === 0) {
-      append({
-        day: { uz: "", ru: "", en: "" },
-        dayText: { uz: "", ru: "", en: "" },
-        dayTitle: { uz: "", ru: "", en: "" },
-        images: [""],
-      });
+    if (formData?.Days?.length > 0) {
+      formData.Days.forEach(
+        (item: {
+          day: { uz: string; ru: string; en: string };
+          dayText: { uz: string; ru: string; en: string };
+          dayTitle: { uz: string; ru: string; en: string };
+          images: string[];
+        }) => {
+          append(item);
+        }
+      );
     }
-  }, [fields, append]);
+  }, [formData]);
 
   const addDayProgram = () => {
     append({
@@ -100,6 +106,7 @@ export const DaysProgramInputs = ({
                       {key} ({lang.toUpperCase()})
                     </Label>
                     <Input
+                      defaultValue={field[key][lang]}
                       className="my-2"
                       id={`${name}-${index}-${key}-${lang}`}
                       placeholder={`Enter ${key} in ${lang.toUpperCase()}`}
@@ -121,6 +128,7 @@ export const DaysProgramInputs = ({
                   className="flex items-center gap-2"
                 >
                   <Input
+                    defaultValue={field.images[imageIndex]}
                     className="my-3"
                     placeholder="Enter image URL"
                     {...register(`${name}.${index}.images.${imageIndex}`, {
@@ -164,10 +172,10 @@ export const DaysProgramInputs = ({
         ))}
 
         <div className="flex justify-end gap-2">
-          {/* <Button type="button" variant="outline" onClick={onBackStep}>
+          <Button type="button" variant="outline" onClick={onBackStep}>
             Back
           </Button>
-          <Button onClick={handleSubmit(onSubmit)}>Next</Button> */}
+          <Button onClick={handleSubmit(onSubmit)}>Next</Button>
         </div>
       </CardContent>
     </Card>

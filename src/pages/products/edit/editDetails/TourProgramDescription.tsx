@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"; // Corrected Input import
 import { Label } from "@/components/ui/label"; // Corrected Label import
 import { useFormContext } from "react-hook-form";
 import { Inputs } from "./TourPlan";
+import { useEffect } from "react";
 
 type TourProgramDescription = {
   age: { uz: string; ru: string; en: string };
@@ -22,18 +23,34 @@ type TourProgramDescription = {
 };
 
 export function TourProgramDescriptionForm({
+  formData,
   onNextStep,
   onBackStep,
 }: {
   onNextStep: () => void;
   onBackStep: () => void;
+  formData: any;
 }) {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useFormContext<TourProgramDescription>();
-
+  useEffect(() => {
+    if (formData) {
+      Object.keys(formData).forEach((key) => {
+        const fieldKey = key as keyof TourProgramDescription;
+        if (formData[fieldKey]) {
+          Object.keys(formData[fieldKey]!).forEach((lang) => {
+            const fieldPath =
+              `${fieldKey}.${lang}` as keyof TourProgramDescription;
+            setValue(`${fieldPath}`, formData[fieldKey]?.[lang] || "");
+          });
+        }
+      });
+    }
+  }, [formData, setValue]);
   const onSubmit = (data: TourProgramDescription) => {
     console.log("Tour Program Description Data:", data);
     onNextStep();
@@ -78,24 +95,26 @@ export function TourProgramDescriptionForm({
         {renderLanguageFields("transport", "Transport")}
         {renderLanguageFields("accommodation", "Accommodation")}
         <Inputs
+          formData={formData.Includes}
           name="Includes"
           onBackStep={onBackStep}
           onNextStep={onNextStep}
         />
         <Inputs
+          formData={formData.Excludes}
           name="Excludes"
           onBackStep={onBackStep}
           onNextStep={onNextStep}
         />
       </CardContent>
-      {/* <CardFooter className="gap-2">
+      <CardFooter className="gap-2">
         <Button size={"lg"} onClick={handleSubmit(onSubmit)}>
           Next
         </Button>
         <Button size={"lg"} variant={"outline"} onClick={onBackStep}>
           Back
         </Button>
-      </CardFooter> */}
+      </CardFooter>
     </Card>
   );
 }

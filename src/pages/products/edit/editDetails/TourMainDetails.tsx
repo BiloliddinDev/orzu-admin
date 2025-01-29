@@ -100,11 +100,6 @@ const TourMainDetails = ({ modal }: any) => {
                   Add Details
                 </Button>
               </Link>
-              <Link to={`detailsedit/${element.id}`}>
-                <Button className="bg-main-200 text-white rounded-md p-2">
-                  Edit Details
-                </Button>
-              </Link>
               <Link to={`edit/${element.id}`}>
                 <Button className="bg-green-400 text-white rounded-md p-2">
                   Edit Tour
