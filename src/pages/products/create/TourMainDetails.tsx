@@ -71,7 +71,7 @@ const TourMainDetails = ({ modal }: any) => {
           />
           <CardHeader className="p-0 m-0">
             <CardTitle className="text-2xl    my-2 p-0 font-bold text-center">
-              {element.title.uz}
+              {element.title.ru}
             </CardTitle>
             <CardTitle className="text-xl max-w-[80%] ml-5   my-2 p-0  text-center">
               <div className="flex mt-3 border-b border-black pb-3 w-full justify-between">
@@ -85,26 +85,26 @@ const TourMainDetails = ({ modal }: any) => {
               <div className="flex mt-3 items-center border-b border-black pb-3 w-full justify-between">
                 <p>Season:</p>
 
-                <div>
-                  {element.season.map((elem: string, ID: number) => (
-                    <div key={ID}>{elem}</div>
-                  ))}
-                </div>
+                <div>{element.season.ru}</div>
               </div>
             </CardTitle>
           </CardHeader>
           <CardContent className="text-center">
             <div className="flex mt-4 items-center justify-between w-full">
-              <Link to={`create/${element.id}`}>
-                <Button className="bg-main-200 text-white rounded-md p-2">
-                  Add Details
-                </Button>
-              </Link>
-              <Link to={`detailsedit/${element.id}`}>
-                <Button className="bg-main-200 text-white rounded-md p-2">
-                  Edit Details
-                </Button>
-              </Link>
+              {!element.details && (
+                <Link to={`create/${element.id}`}>
+                  <Button className="bg-main-200 text-white rounded-md p-2">
+                    Add Details
+                  </Button>
+                </Link>
+              )}
+              {element.details && (
+                <Link to={`detailsedit/${element.id}`}>
+                  <Button className="bg-main-200 text-white rounded-md p-2">
+                    Edit Details
+                  </Button>
+                </Link>
+              )}
               <Link to={`edit/${element.id}`}>
                 <Button className="bg-green-400 text-white rounded-md p-2">
                   Edit Tour

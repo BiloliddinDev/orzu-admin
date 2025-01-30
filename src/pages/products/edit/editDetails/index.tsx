@@ -47,7 +47,7 @@ export function EditTourDetails() {
             ...docSnap.data().details,
           };
           setFormData(tourData);
-          console.log("Tour data >>>", formData);
+          // console.log("Tour data >>>", formData);
         }
 
         // toast.success("Document successfully written!");
@@ -65,52 +65,52 @@ export function EditTourDetails() {
       return; // Return early if `id` is missing
     }
     const combinedData = {
-      ...formData,
+      ...data,
     };
     // console.log(id);
 
     console.log("Combined Form Data in index hellooooo:", combinedData);
 
-    // const addDetails = async (productId: any) => {
-    //   // console.log("Form data: ", formData);
+    const addDetails = async (productId: any) => {
+      // console.log("Form data: ", formData);
 
-    //   if (!productId || !combinedData) {
-    //     toast.error("Invalid form data");
-    //     return;
-    //   }
-    //   try {
-    //     const docRef = doc(DB, "tourss", productId);
-    //     const docSnap = await getDoc(docRef);
-    //     if (docSnap.exists()) {
-    //       const tourData: any = {
-    //         id: docSnap.id,
-    //         ...docSnap.data(),
-    //       };
+      if (!productId || !combinedData) {
+        toast.error("Invalid form data");
+        return;
+      }
+      try {
+        const docRef = doc(DB, "tourss", productId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const tourData: any = {
+            id: docSnap.id,
+            ...docSnap.data(),
+          };
 
-    //       console.log("Tour data >>>", tourData);
-    //       await updateDoc(docRef, {
-    //         ...tourData,
-    //         details: combinedData,
-    //       });
-    //     }
-    //     console.log("Document reference: ", docRef);
+          console.log("Tour data >>>", tourData);
+          await updateDoc(docRef, {
+            ...tourData,
+            details: combinedData,
+          });
+        }
+        console.log("Document reference: ", docRef);
 
-    //     console.log("Document written with ID: ", docRef.id, combinedData);
+        console.log("Document written with ID: ", docRef.id, combinedData);
 
-    //     toast.success("Document successfully written!");
-    //     navigate("/tours");
-    //   } catch (error) {
-    //     toast.error("Error writing document: ");
-    //   } finally {
-    //   }
-    // };
-    // addDetails(id);
+        toast.success("Document successfully written!");
+        navigate(-1);
+      } catch (error) {
+        toast.error("Error writing document: ");
+      } finally {
+      }
+    };
+    addDetails(id);
   };
   React.useEffect(() => {
     methods.reset({});
-  }, [methods.reset]);
+  }, [methods.reset, formData]);
 
-  // Example usage: Fetch product with ID "1"
+  console.log("Rendered ");
 
   return (
     <FormProvider {...methods}>

@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input"; // Corrected Input import
 import { Label } from "@/components/ui/label"; // Corrected Label import
 import { useFormContext } from "react-hook-form";
-import { Inputs } from "./TourPlan";
+import { Inputs } from "./Inputs"; // Corrected Inputs import
 import { useEffect } from "react";
 
 type TourProgramDescription = {
@@ -50,7 +50,7 @@ export function TourProgramDescriptionForm({
         }
       });
     }
-  }, [formData, setValue]);
+  }, [setValue]);
   const onSubmit = (data: TourProgramDescription) => {
     console.log("Tour Program Description Data:", data);
     onNextStep();

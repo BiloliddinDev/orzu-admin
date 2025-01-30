@@ -85,11 +85,7 @@ const TourMainDetails = ({ modal }: any) => {
               <div className="flex mt-3 items-center border-b border-black pb-3 w-full justify-between">
                 <p>Season:</p>
 
-                <div>
-                  {element.season.map((elem: string, ID: number) => (
-                    <div key={ID}>{elem}</div>
-                  ))}
-                </div>
+                <div>{element.season.ru}</div>
               </div>
             </CardTitle>
           </CardHeader>

@@ -42,6 +42,8 @@ export const DaysProgramInputs = ({
   });
 
   React.useEffect(() => {
+    console.log("days ", fields.length);
+
     if (formData?.Days?.length > 0) {
       formData.Days.forEach(
         (item: {

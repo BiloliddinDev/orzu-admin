@@ -107,13 +107,6 @@ const editMainTour = () => {
     }
   };
 
-  const seasonOptions = [
-    { value: "Winter", label: "Winter" },
-    { value: "Spring", label: "Spring" },
-    { value: "Summer", label: "Summer" },
-    { value: "Autumn", label: "Autumn" },
-  ];
-
   const renderLanguageFields = (
     fieldKey: keyof TourMainDetailsType,
     label: string
@@ -175,6 +168,8 @@ const editMainTour = () => {
         {renderLanguageFields("title", "Title")}
         {renderLanguageFields("description", "Description")}
         {renderLanguageFields("duration", "Duration")}
+        {renderLanguageFields("season", "Season")}
+        {renderLanguageFields("month", "Month")}
         <div className="space-y-2">
           <Label htmlFor="image">Image URL</Label>
           <Input
@@ -204,28 +199,6 @@ const editMainTour = () => {
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="season">Season</Label>
-          <Select
-            id="season"
-            isMulti
-            options={seasonOptions}
-            value={seasonOptions.filter((option) =>
-              formData.season.includes(option.value)
-            )}
-            onChange={(selectedOptions) =>
-              handleChange(
-                "season",
-                selectedOptions.map((option) => option.value)
-              )
-            }
-            className="w-full"
-          />
-          {errors.season && (
-            <span className="text-sm text-red-500">{errors.season}</span>
-          )}
-        </div>
-
         <div>
           <label className="block mb-1 text-sm font-medium">Category</label>
           <select
@@ -240,6 +213,20 @@ const editMainTour = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="price">Is Best </Label>
+          <Input
+            id="isBest"
+            type="checkbox"
+            checked={formData.isBest}
+            // defaultValue={formData.isBest}
+            onChange={(e) => handleChange("isBest", e.target.checked)}
+            className=" m-0 p-0 text-lg border-0 outline-none"
+          />
+          {errors.isBest && (
+            <span className="text-sm text-red-500">{errors.price}</span>
+          )}
         </div>
       </div>
       <Button onClick={handleSubmit} className="w-full my-3 bg-main-200 p-2">

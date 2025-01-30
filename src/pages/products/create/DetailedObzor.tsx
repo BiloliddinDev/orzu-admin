@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormContext, useFieldArray } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export const DetailedObzor = ({
   onNextStep,
@@ -34,7 +35,7 @@ export const DetailedObzor = ({
       }>;
     }>;
   }>();
-
+  const Navigate = useNavigate();
   const { fields, append, remove, update } = useFieldArray({
     control,
     name, // Use the provided `name` prop
@@ -206,10 +207,10 @@ export const DetailedObzor = ({
         ))}
 
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onBackStep}>
+          <Button type="button" variant="outline" onClick={() => Navigate(-1)}>
             Back
           </Button>
-          <Button>Create</Button>
+          <Button>Add details</Button>
         </div>
       </CardContent>
     </Card>

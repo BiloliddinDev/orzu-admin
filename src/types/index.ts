@@ -57,6 +57,11 @@ export interface TourMainDetailsType {
     ru: string;
     en: string;
   };
+  month: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
   description: {
     uz: string;
     ru: string;
@@ -69,8 +74,14 @@ export interface TourMainDetailsType {
     en: string;
   };
   price: number;
-  season: "Winter" | "Spring" | "Summer" | "Autumn" | any;
+  season: {
+    uz: string;
+    ru: string;
+    en: string;
+  };
   category: string;
+  isBest?: boolean;
+  details?: any;
 }
 
 // Step 2

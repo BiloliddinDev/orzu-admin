@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormContext, useFieldArray } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export const DetailedObzor = ({
   onNextStep,
@@ -36,7 +37,7 @@ export const DetailedObzor = ({
       }>;
     }>;
   }>();
-
+  const navigate = useNavigate();
   const { fields, append, remove, update } = useFieldArray({
     control,
     name, // Use the provided `name` prop
@@ -53,7 +54,10 @@ export const DetailedObzor = ({
   //   }
   // }, [fields, append]);
   React.useEffect(() => {
+    console.log(formData.DaysWithHours);
+
     if (formData?.DaysWithHours?.length > 0) {
+      remove();
       formData.DaysWithHours.forEach(
         (item: {
           day: { uz: string; ru: string; en: string };
@@ -148,6 +152,7 @@ export const DetailedObzor = ({
                       Time
                     </Label>
                     <Input
+                      defaultValue={field.hours[imageIndex].time}
                       className=" w-full"
                       placeholder="Enter time"
                       {...register(
@@ -172,6 +177,7 @@ export const DetailedObzor = ({
                               {key} ({lang.toUpperCase()})
                             </Label>
                             <Input
+                              defaultValue={field.hours[imageIndex][key][lang]}
                               className="my-2"
                               id={`${name}-${index}.hours.${imageIndex}.${key}.${lang}`}
                               placeholder={`Enter ${key} in ${lang.toUpperCase()}`}
@@ -224,7 +230,7 @@ export const DetailedObzor = ({
         ))}
 
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onBackStep}>
+          <Button type="button" variant="outline" onClick={() => navigate(-1)}>
             Back
           </Button>
           <Button>Update</Button>

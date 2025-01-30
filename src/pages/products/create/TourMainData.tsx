@@ -31,8 +31,9 @@ const Products = () => {
     image: "",
     duration: { uz: "", ru: "", en: "" },
     price: 0,
-    season: [],
+    season: { uz: "", ru: "", en: "" },
     category: "adventure",
+    month: { uz: "", ru: "", en: "" },
   };
   const [categories, setCategories] = useState<categorytype[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -84,8 +85,12 @@ const Products = () => {
     if (formData.price <= 0) newErrors.price = "Price must be greater than 0.";
     if (formData.category.length === 0)
       newErrors.price = "You must select a category.";
-    if (formData.season.length === 0)
-      newErrors.season = "At least one season must be selected.";
+    if (!formData.season.uz)
+      newErrors["season.uz"] = "Season in Uzbek is required.";
+    if (!formData.season.ru)
+      newErrors["season.ru"] = "Season in Russian is required.";
+    if (!formData.season.en)
+      newErrors["season.en"] = "Season in English is required.";
     return newErrors;
   };
 
@@ -201,28 +206,6 @@ const Products = () => {
               />
               {errors.price && (
                 <span className="text-sm text-red-500">{errors.price}</span>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="season">Season</Label>
-              <Select
-                id="season"
-                isMulti
-                options={seasonOptions}
-                value={seasonOptions.filter((option) =>
-                  formData.season.includes(option.value)
-                )}
-                onChange={(selectedOptions) =>
-                  handleChange(
-                    "season",
-                    selectedOptions.map((option) => option.value)
-                  )
-                }
-                className="w-full"
-              />
-              {errors.season && (
-                <span className="text-sm text-red-500">{errors.season}</span>
               )}
             </div>
 
