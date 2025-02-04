@@ -100,7 +100,7 @@ const TourPlanForm: React.FC<TourPlanFormProps> = ({
       <CardHeader>
         <h2>Create In Tour data Plan</h2>
         <CardDescription>
-          Fill in the about details for the tour.
+          Заполните информацию о туре.
         </CardDescription>
       </CardHeader>
       <Inputs
