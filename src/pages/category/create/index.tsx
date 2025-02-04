@@ -4,8 +4,10 @@ import { collection, addDoc } from "firebase/firestore";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const CreateCategoryForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     descriptionuz: "",
@@ -61,6 +63,7 @@ const CreateCategoryForm = () => {
     } finally {
       setLoading(false);
     }
+    navigate("/categ")
   };
 
   return (

@@ -90,14 +90,14 @@ export const DetailedObzor = ({
       <CardHeader>
         <h2>Add Day detailed Program</h2>
         <CardDescription>
-          Fill in the about details for the tour.
+          Заполните информацию о туре.
         </CardDescription>
       </CardHeader>
       <CardContent className="">
         {fields.map((field, index) => (
-          <div key={field.id} className="space-y-4  p-4 rounded-md">
+          <div key={field.id} className="space-y-4   rounded-md">
             {(["day", "dayTitle"] as const).map((key) => (
-              <div key={`${name}-${index}-${key}`} className="space-y-2">
+              <div key={`${name}-${index}-${key}`} className="space-y-2 bg-gray-100 p-4">
                 {(["uz", "ru", "en"] as const).map((lang) => (
                   <div key={`${name}-${index}-${key}-${lang}`}>
                     <Label htmlFor={`${name}-${index}-${key}-${lang}`}>
@@ -118,11 +118,11 @@ export const DetailedObzor = ({
 
             {/* Image Uploads */}
             <div>
-              <Label>Day Hourly </Label>
+              <Label className="font-bold text-xl">Day Hourly </Label>
               {field.hours.map((_, imageIndex) => (
                 <div
                   key={`${name}.${index}-hours-${imageIndex}`}
-                  className="flex items-center justify-start gap-6"
+                  className="flex items-center justify-start gap-6 bg-gray-100 px-4 mt-3"
                 >
                   <div>
                     <Label

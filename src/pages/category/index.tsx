@@ -40,41 +40,42 @@ const Category = () => {
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <h1 className="mb-4 text-2xl font-bold">Categories</h1>
-          <Button onClick={() => navigate("/categ/create")}>
+          <Button onClick={() => navigate("/categ/create")} className="bg-main-300">
             Create new Category
           </Button>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categories.map((category: categorytype) => (
-            <div key={category.id} className="p-4 border   shadow rounded-2xl">
-              <img className="w-full h-70" src={category.image} alt="" />
-              <h2 className="text-2xl my-2 font-semibold">
+            <div key={category.id} className="border   shadow rounded-2xl">
+              <img className="w-full h-52 rounded-t-2xl" src={category.image} alt="" />
+              <div className="p-4"> <h2 className="text-2xl my-2 font-semibold">
                 {category.titleen}
               </h2>
-              <p className="font-sans text-base line-clamp-5">
-                {category.descriptionen}
-              </p>
-              <div className="flex justify-between mt-4 gap-3">
-                <DialogCloseButton title={"Delete category"}>
-                  <h2 className="text-red-400">
-                    Do you want to delete {category.titleru} category
-                  </h2>
+                <p className="font-sans text-base line-clamp-5">
+                  {category.descriptionen}
+                </p>
+                <div className="flex justify-between mt-4">
                   <Button
-                    onClick={() => handleDelete(category.id)}
-                    className="w-full bg-red-600 my-2 mt-8 "
+                    className=" rounded-lg bg-green-500"
+                    onClick={() => navigate(`/categ/edit/${category.id}`)}
                   >
-                    {/* <MdDelete /> */}
-                    Delete category
+                    Update
                   </Button>
-                </DialogCloseButton>
+                  <DialogCloseButton title={"Delete "}>
+                    <h2 className="text-red-400">
+                      Do you want to delete {category.titleru} category
+                    </h2>
+                    <Button
+                      onClick={() => handleDelete(category.id)}
+                      className="w-full bg-red-500 my-2 mt-8 rounded-lg "
+                    >
+                      {/* <MdDelete /> */}
+                      Delete
+                    </Button>
+                  </DialogCloseButton>
 
-                <Button
-                  className=""
-                  onClick={() => navigate(`/categ/edit/${category.id}`)}
-                >
-                  Update Category
-                </Button>
-              </div>
+
+                </div></div>
             </div>
           ))}
         </div>

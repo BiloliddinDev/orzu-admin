@@ -47,7 +47,7 @@ export function TourProgramDescriptionForm({
       const fieldPath = `${fieldKey}.${lang}` as const;
 
       return (
-        <div key={fieldPath} className="space-y-4">
+        <div key={fieldPath} className="space-y-4 ">
           <Label htmlFor={fieldPath}>
             {label} ({lang.toUpperCase()})
           </Label>
@@ -67,16 +67,16 @@ export function TourProgramDescriptionForm({
       <CardHeader>
         <CardTitle>Create Tour Program Description</CardTitle>
         <CardDescription>
-          Fill in the program description details for the tour.
+          Заполните описание программы тура.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {renderLanguageFields("timeEvent", "Time Event")}
-        {renderLanguageFields("countPeople", "Count People")}
-        {renderLanguageFields("age", "Age")}
-        {renderLanguageFields("flight", "Flight")}
-        {renderLanguageFields("transport", "Transport")}
-        {renderLanguageFields("accommodation", "Accommodation")}
+        <div className="bg-gray-100 p-4">{renderLanguageFields("timeEvent", "Time Event")}</div>
+        <div className="bg-gray-100 p-4">{renderLanguageFields("countPeople", "Count People")}</div>
+        <div className="bg-gray-100 p-4">{renderLanguageFields("age", "Age")}</div>
+        <div className="bg-gray-100 p-4">{renderLanguageFields("flight", "Flight")}</div>
+        <div className="bg-gray-100 p-4">{renderLanguageFields("transport", "Transport")}</div>
+        <div className="bg-gray-100 p-4">{renderLanguageFields("accommodation", "Accommodation")}</div>
         <Inputs
           name="Includes"
           onBackStep={onBackStep}

@@ -86,14 +86,14 @@ export const DaysProgramInputs = ({
       <CardHeader>
         <h2>Add Day Program</h2>
         <CardDescription>
-          Fill in the about details for the tour.
+          Заполните информацию о туре.
         </CardDescription>
       </CardHeader>
       <CardContent className="">
         {fields.map((field, index) => (
-          <div key={field.id} className="space-y-4  p-4 rounded-md">
+          <div key={field.id} className="space-y-4  rounded-md">
             {(["day", "dayTitle", "dayText"] as const).map((key) => (
-              <div key={`${name}-${index}-${key}`} className="space-y-2">
+              <div key={`${name}-${index}-${key}`} className="space-y-2 bg-gray-100 p-4">
                 {(["uz", "ru", "en"] as const).map((lang) => (
                   <div key={`${name}-${index}-${key}-${lang}`}>
                     <Label htmlFor={`${name}-${index}-${key}-${lang}`}>

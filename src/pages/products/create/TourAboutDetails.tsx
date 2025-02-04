@@ -87,14 +87,14 @@ export function TourAboutDetailsForm({
       <CardHeader>
         <CardTitle>Create Tour About Details</CardTitle>
         <CardDescription>
-          Fill in the about details for the tour.
+          Заполните информацию о туре.
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid grid-cols-3 gap-4">
-        {renderInputFields2("about", "About")}
-        {renderInputFields("countryName", "Country Name")}
-        {renderInputFields("language", "Language")}
-        {renderInputFields("currency", "Currency")}
+      <CardContent className="">
+        <div className="grid grid-cols-3 gap-4 bg-gray-100 p-4 my-5">{renderInputFields2("about", "About")}</div>
+        <div className="grid grid-cols-3 gap-4 bg-gray-100 p-4 my-5">{renderInputFields("countryName", "Country Name")}</div>
+        <div className="grid grid-cols-3 gap-4 bg-gray-100 p-4 my-5">{renderInputFields("language", "Language")}</div>
+        <div className="grid grid-cols-3 gap-4 bg-gray-100 p-4 my-5">{renderInputFields("currency", "Currency")}</div>
         <div className="space-y-2">
           <Label htmlFor="map">Map URL</Label>
           <Input

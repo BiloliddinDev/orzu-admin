@@ -55,9 +55,9 @@ export const Inputs = ({
     append({ uz: "", ru: "", en: "" });
   };
   return (
-    <CardContent className="space-y-4">
+    <CardContent className="p-0">
       {fields.map((field, index) => (
-        <div key={field.id} className="space-y-4">
+        <div key={field.id} className="space-y-4 bg-gray-100 p-4 my-4">
           {(["uz", "ru", "en"] as const).map((lang) => (
             <div key={`${name}-${index}-${lang}`} className="space-y-2">
               <Label htmlFor={`${name}-${index}-${lang}`}>
@@ -103,11 +103,12 @@ const TourPlanForm: React.FC<TourPlanFormProps> = ({
           Заполните информацию о туре.
         </CardDescription>
       </CardHeader>
-      <Inputs
-        name="Description"
-        onBackStep={onBackStep}
-        onNextStep={onNextStep}
-      />
+      <div className="p-6 pt-0 ">
+        <Inputs
+          name="Description"
+          onBackStep={onBackStep}
+          onNextStep={onNextStep}
+        /></div>
       <CardFooter className="gap-2">
         {/* <Button size={"lg"} onClick={handleSubmit(onSubmit)}>
           Next
